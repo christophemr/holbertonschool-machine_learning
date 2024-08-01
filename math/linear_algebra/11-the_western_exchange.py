@@ -5,4 +5,3 @@
 def np_transpose(matrix):
     """returns and transposes a numpy.ndarray"""
     return matrix.transpose()
-
