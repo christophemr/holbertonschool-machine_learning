@@ -21,7 +21,7 @@ def poly_integral(poly, C=0):
     """
     if (not isinstance(poly, list) or
        not all(isinstance(coef, (int, float)) for coef in poly) or
-       not isinstance(C, int)):
+       not isinstance(C, int) or len(poly) == 0):
         return None
 
     # Compute the integral coefficients by dividing
