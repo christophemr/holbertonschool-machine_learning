@@ -1,6 +1,6 @@
 #!usr/bin/env python3
 """function that calculates the integral of
-a plynomial
+a polynomial
 """
 
 
