@@ -60,7 +60,8 @@ class Node:
 
     def count_nodes_below(self, only_leaves=False):
         """
-        Counts the number of nodes or leaves in the subtree rooted at this node.
+        Counts the number of nodes or leaves
+        in the subtree rooted at this node.
 
         Parameters:
             only_leaves (bool): If True, count only the leaf nodes.
@@ -68,18 +69,18 @@ class Node:
         Returns:
             int: The total count of nodes or leaves.
         """
-        if only_leaves:
-            left_count = (self.left_child.count_nodes_below
-                          (only_leaves=True) if self.left_child else 0)
-            right_count = (self.right_child.count_nodes_below
-                           (only_leaves=True) if self.right_child else 0)
-            return left_count + right_count
+        if self.is_leaf:
+            # returns 1 if the node is a leaf & only_leaves is true else 0
+            return 1 if only_leaves else 1
         else:
+            # Otherwise, continue counting in the left and right subtrees
             left_count = (self.left_child.count_nodes_below
-                          (only_leaves=False) if self.left_child else 0)
+                          (only_leaves) if self.left_child else 0)
             right_count = (self.right_child.count_nodes_below
-                           (only_leaves=False) if self.right_child else 0)
-            return 1 + left_count + right_count
+                           (only_leaves) if self.right_child else 0)
+            # For a non-leaf node, return the sum of the counts
+            return ((left_count + right_count) if
+                    only_leaves else (1 + left_count + right_count))
 
 
 class Leaf(Node):
@@ -159,4 +160,3 @@ class Decision_Tree():
             int: The total number of nodes or leaves in the tree.
         """
         return self.root.count_nodes_below(only_leaves=only_leaves)
-
