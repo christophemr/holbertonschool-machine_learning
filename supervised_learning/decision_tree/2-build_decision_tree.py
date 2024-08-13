@@ -112,9 +112,9 @@ class Node:
             str: The text with the left child prefix added.
         """
         lines = text.split("\n")
-        new_text = "    +--" + lines[0] + "\n"
+        new_text = "    +--->" + lines[0] + "\n"
         for line in lines[1:]:
-            new_text += "    |  " + line + "\n"
+            new_text += "    |     " + line + "\n"
         return new_text.strip()
 
     def right_child_add_prefix(self, text):
@@ -128,9 +128,9 @@ class Node:
             str: The text with the right child prefix added.
         """
         lines = text.split("\n")
-        new_text = "    `--" + lines[0] + "\n"
+        new_text = "    `--->" + lines[0] + "\n"
         for line in lines[1:]:
-            new_text += "       " + line + "\n"
+            new_text += "    |     " + line + "\n"
         return new_text.strip()
 
 
@@ -218,4 +218,4 @@ class Decision_Tree():
 
     def __str__(self):
         """returns a string representation of the node"""
-        return self.root.__str__()
+        return "root " + self.root.__str__()
