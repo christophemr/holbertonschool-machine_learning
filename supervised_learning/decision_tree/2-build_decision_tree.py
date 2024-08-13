@@ -112,7 +112,7 @@ class Node:
             str: The text with the left child prefix added.
         """
         lines = text.split("\n")
-        new_text = "    +--->" + lines[0] + "\n"
+        new_text = "    +--" + lines[0] + "\n"
         for line in lines[1:]:
             new_text += "    |     " + line + "\n"
         return new_text.strip()
@@ -128,7 +128,7 @@ class Node:
             str: The text with the right child prefix added.
         """
         lines = text.split("\n")
-        new_text = "    `--->" + lines[0] + "\n"
+        new_text = "    `--" + lines[0] + "\n"
         for line in lines[1:]:
             new_text += "    |     " + line + "\n"
         return new_text.strip()
