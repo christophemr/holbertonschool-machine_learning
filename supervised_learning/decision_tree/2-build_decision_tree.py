@@ -89,7 +89,7 @@ class Node:
             str: The formatted string representing the node and its subtree
         """
         # Determine if the node is the root or an internal node
-        current = "root" if self.is_root else "node"
+        current = "root" if self.is_root else "-> node"
         # Format the node information
         result = \
             f"{current} [feature={self.feature}, threshold={self.threshold}]\n"
@@ -99,7 +99,7 @@ class Node:
               self.left_child_add_prefix(str(self.left_child).strip())
         if self.right_child:
             # Add right child with the correct prefix
-            result += "\n" + \
+            result += \
               self.right_child_add_prefix(str(self.right_child).strip())
         return result
 
