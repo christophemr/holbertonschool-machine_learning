@@ -91,9 +91,9 @@ class Node:
         # Determine if the node is the root or an internal node
         current = "root" if self.is_root else "node"
         # Format the node information
-        result = f"{current} [feature={self.feature},\
-          threshold={self.threshold}]\n"
-            # Add left child with the correct prefix
+        result = \
+            f"{current} [feature={self.feature}, threshold={self.threshold}]\n"
+        # Add left child with the correct prefix
         if self.left_child:
             result +=\
               self.left_child_add_prefix(str(self.left_child).strip())
@@ -113,9 +113,10 @@ class Node:
         """
         lines = text.split("\n")
         new_text = "    +--" + lines[0] + "\n"
-        for line in lines[1:]:
-            new_text += "    |  " + line + "\n"
-        return new_text.rstrip()
+        for x in lines[1:]:
+            if x:
+                new_text += ("    |  " + x) + "\n"
+        return new_text
 
     def right_child_add_prefix(self, text):
         """
@@ -126,10 +127,11 @@ class Node:
             str: The text with the right child prefix added.
         """
         lines = text.split("\n")
-        new_text = "    `--" + lines[0] + "\n"
-        for line in lines[1:]:
-            new_text += "       " + line + "\n"
-        return new_text.rstrip()
+        new_text = "    +--" + lines[0] + "\n"
+        for x in lines[1:]:
+            if x:
+                new_text += ("       " + x) + "\n"
+        return new_text
 
 
 class Leaf(Node):
