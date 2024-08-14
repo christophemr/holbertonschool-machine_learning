@@ -88,16 +88,19 @@ class Node:
         Returns:
             str: The formatted string representing the node and its subtree
         """
-        # represents the current node with feature & threshold
-        current = "root" if self.is_root else "-> node"
+        # Determine if the node is the root or an internal node
+        current = "root" if self.is_root else "node"
+        # Format the node information
         result = f"{current} [feature={self.feature},\
           threshold={self.threshold}]\n"
+            # Add left child with the correct prefix
         if self.left_child:
             result +=\
-              self.left_child_add_prefix(self.left_child.__str__())
+              self.left_child_add_prefix(str(self.left_child).strip())
         if self.right_child:
+            # Add right child with the correct prefix
             result += "\n" + \
-              self.right_child_add_prefix(self.right_child.__str__())
+              self.right_child_add_prefix(str(self.right_child).strip())
         return result
 
     def left_child_add_prefix(self, text):
