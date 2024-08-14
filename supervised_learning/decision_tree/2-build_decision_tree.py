@@ -42,7 +42,6 @@ class Node:
     def max_depth_below(self):
         """
         Computes the maximum depth of the subtree rooted at this node.
-
         Returns:
             int: The maximum depth from this node down to the deepest leaf.
         """
@@ -62,10 +61,8 @@ class Node:
         """
         Counts the number of nodes or leaves
         in the subtree rooted at this node.
-
         Parameters:
             only_leaves (bool): If True, count only the leaf nodes.
-
         Returns:
             int: The total count of nodes or leaves.
         """
@@ -84,30 +81,30 @@ class Node:
 
     def __str__(self):
         """
-        Returns a string representation of the node and its children.
-        This method recursively generates the string representation of the current
-        node and its children, applying the appropriate prefix to visually represent
-        the tree structure.
+        Generates a string representation of the node and its subtree
+        This method recursively creates a string that visually represents
+        the node and its children, using prefixes to illustrate
+        the tree structure
         Returns:
-            str: The string representation of the node and its subtree
+            str: The formatted string representing the node and its subtree
         """
         # represents the current node with feature & threshold
-        str_node = f"node [feature={self.feature}, threshold={self.threshold}]"
-        # add the left child representation with correct prefix
+        current = "root" if self.is_root else "-> node"
+        result = f"{current} [feature={self.feature},\
+          threshold={self.threshold}]\n"
         if self.left_child:
-          str_node += "\n" + self.left_child_add_prefix(str(self.left_child))
-        # add the right child representation with correct prefix
+            result +=\
+              self.left_child_add_prefix(self.left_child.__str__())
         if self.right_child:
-          str_node += "\n" + self.right_child_add_prefix(str(self.right_child))
-        return str_node
+            result += "\n" + \
+              self.right_child_add_prefix(self.right_child.__str__())
+        return result
 
     def left_child_add_prefix(self, text):
         """
         Adds a prefix for the text of the left subtree.
-
         Parameters:
             text (str): The text to be prefixed.
-
         Returns:
             str: The text with the left child prefix added.
         """
@@ -115,15 +112,13 @@ class Node:
         new_text = "    +--" + lines[0] + "\n"
         for line in lines[1:]:
             new_text += "    |  " + line + "\n"
-        return new_text.strip()
+        return new_text.rstrip()
 
     def right_child_add_prefix(self, text):
         """
         Adds a prefix for the text of the right subtree.
-
         Parameters:
             text (str): The text to be prefixed.
-
         Returns:
             str: The text with the right child prefix added.
         """
@@ -131,13 +126,12 @@ class Node:
         new_text = "    `--" + lines[0] + "\n"
         for line in lines[1:]:
             new_text += "       " + line + "\n"
-        return new_text.strip()
+        return new_text.rstrip()
 
 
 class Leaf(Node):
     """
     Represents a leaf node in a decision tree.
-
     Attributes:
         value (any): The target value or class label that this leaf predicts.
         depth (int): The depth of this leaf in the tree.
@@ -151,17 +145,18 @@ class Leaf(Node):
     def max_depth_below(self):
         """
         Returns the depth of this leaf.
-
         Since a leaf does not have any children,
         its maximum depth is its own depth.
-
         Returns:
             int: The depth of this leaf node.
         """
         return self.depth
 
     def __str__(self):
-        """returns a string representation of the node"""
+        """returns a string representation of the node
+        Returns:
+            str: The formatted string representing the leaf node
+        """
         return (f"-> leaf [value={self.value}]")
 
 
@@ -183,6 +178,8 @@ class Decision_Tree():
     """
     def __init__(self, max_depth=10, min_pop=1, seed=0,
                  split_criterion="random", root=None):
+        """Initializes the decision tree with parameters for tree construction
+        and random number generation."""
         self.rng = np.random.default_rng(seed)
         if root:
             self.root = root
@@ -198,7 +195,6 @@ class Decision_Tree():
     def depth(self):
         """
         Calculates the maximum depth of the decision tree.
-
         Returns:
             int: The depth of the deepest node in the tree.
         """
@@ -207,15 +203,16 @@ class Decision_Tree():
     def count_nodes(self, only_leaves=False):
         """
         Counts the number of nodes or leaves in the decision tree.
-
         Parameters:
             only_leaves (bool): If True, count only the leaf nodes.
-
         Returns:
             int: The total number of nodes or leaves in the tree.
         """
         return self.root.count_nodes_below(only_leaves=only_leaves)
 
     def __str__(self):
-        """returns a string representation of the node"""
+        """returns a string representation of the entire decision tree
+        Returns:
+            str: The formatted string representing the decision tree
+        """
         return self.root.__str__()
