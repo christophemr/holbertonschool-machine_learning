@@ -380,6 +380,7 @@ class Decision_Tree():
         # NumPy's vectorized operations
         self.predict = lambda A: np.sum(
             [leaf.indicator(A) * leaf.value for leaf in leaves], axis=0)
+
     def fit_node(self, node):
         """
         Recursively fits the tree starting from the given node.
@@ -395,7 +396,10 @@ class Decision_Tree():
         node.feature, node.threshold = self.split_criterion(node)
 
         # Determine the sub-populations for the left and right child nodes
-        left_population = node.sub_population & (self.explanatory[:, node.feature] > node.threshold)
+        left_population = (
+          node.sub_population
+          & (self.explanatory[:, node.feature] > node.threshold)
+          )
         right_population = node.sub_population & ~left_population
 
         # Check if the left child should be a leaf
@@ -431,7 +435,6 @@ class Decision_Tree():
         else:
             node.right_child = self.get_node_child(node, right_population)
             self.fit_node(node.right_child)
-
 
     def get_leaf_child(self, node, sub_population):
         """
@@ -509,11 +512,14 @@ class Decision_Tree():
         self.update_predict()
 
         if verbose == 1:
-            print(f"""  Training finished.
-    - Depth                     : {self.depth()}
-    - Number of nodes           : {self.count_nodes()}
-    - Number of leaves          : {self.count_nodes(only_leaves=True)}
-    - Accuracy on training data : {self.accuracy(self.explanatory, self.target)}""")
+            print(
+                f"""  Training finished.
+            - Depth                     : {self.depth()}
+            - Number of nodes           : {self.count_nodes()}
+            - Number of leaves          : {self.count_nodes(only_leaves=True)}
+            - Accuracy on training data : """
+                f"{self.accuracy(self.explanatory, self.target)}"""
+            )
 
     def extreme(self, arr):
         """
@@ -541,8 +547,11 @@ class Decision_Tree():
         while diff == 0:
             # Randomly choose a feature index
             feature = self.rng.integers(0, self.explanatory.shape[1])
-            # Find the minimum and maximum values of this feature among the individuals
-            feature_min, feature_max = self.extreme(self.explanatory[:, feature][node.sub_population])
+            # Find the minimum and maximum values of
+            # this feature among the individuals
+            feature_min, feature_max = (
+              self.extreme(self.explanatory[:, feature][node.sub_population])
+              )
             # Calculate the difference to ensure a valid threshold
             diff = feature_max - feature_min
         # Randomly choose a threshold within the range of the feature values
