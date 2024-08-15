@@ -215,6 +215,7 @@ class Leaf(Node):
     def update_bounds_below(self):
         pass
 
+
 class Decision_Tree():
     """
     Implements a decision tree classifier.
@@ -282,5 +283,5 @@ class Decision_Tree():
       """
         return self.root.get_leaves_below()
 
-    def update_bounds(self) :
+    def update_bounds(self):
         self.root.update_bounds_below()
