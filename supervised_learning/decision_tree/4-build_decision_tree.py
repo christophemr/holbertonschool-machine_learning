@@ -213,6 +213,16 @@ class Leaf(Node):
         return [self]
 
     def update_bounds_below(self):
+        """
+        Placeholder method for updating bounds in a leaf node.
+        This method is intended to override the `update_bounds_below`
+        method in the `Node` class.
+        Since a leaf node does not have children and
+        does not need to update any bounds,
+        this method is implemented as a no-op (no operation).
+        Returns:
+            None
+        """
         pass
 
 
@@ -284,4 +294,5 @@ class Decision_Tree():
         return self.root.get_leaves_below()
 
     def update_bounds(self):
+        """Updates the bounds for all nodes in the decision tree"""
         self.root.update_bounds_below()
