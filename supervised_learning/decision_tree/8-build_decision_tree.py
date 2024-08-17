@@ -597,12 +597,15 @@ class Decision_Tree():
         gini_left = 1.0 - np.sum(left_proportions ** 2, axis=1)
         gini_right = 1.0 - np.sum(right_proportions ** 2, axis=1)
         # Compute sizes for weighted average
-        left_size = np.sum(feature_values[:, np.newaxis] > thresholds, axis=0)
-        right_size = np.sum(feature_values[:, np.newaxis] <= thresholds, axis=0)
+        left_size = (np.sum(
+          feature_values[:, np.newaxis] > thresholds, axis=0))
+        right_size = (np.sum(
+          feature_values[:, np.newaxis] <= thresholds, axis=0))
         total_size = left_size + right_size
         # Compute weighted Gini impurity
         weighted_gini = (
-            left_size / total_size * gini_left + right_size / total_size * gini_right
+            left_size / total_size * gini_left + right_size
+            / total_size * gini_right
         )
         # Find the threshold with the smallest Gini impurity
         min_index = np.argmin(weighted_gini)
