@@ -100,15 +100,17 @@ class Random_Forest:
 
         # If verbose mode is enabled, print out the training statistics
         if verbose == 1:
-            print(f"""  Training finished.
-            - Mean depth                     : {np.mean(depths)}
-            - Mean number of nodes           : {np.mean(nodes)}
-            - Mean number of leaves          : {np.mean(leaves)}
-            - Mean accuracy on training data : {np.mean(accuracies)}
-            - Accuracy of the forest on td   : {
-                self.accuracy(explanatory, target)
-            }
-            """)
+            print("  Training finished.")
+            print(f"    - Mean depth                     : "
+                  f"{np.array(depths).mean()}")
+            print(f"    - Mean number of nodes           : "
+                  f"{np.array(nodes).mean()}")
+            print(f"    - Mean number of leaves          : "
+                  f"{np.array(leaves).mean()}")
+            print(f"    - Mean accuracy on training data : "
+                  f"{np.array(accuracies).mean()}")
+            print(f"    - Accuracy of the forest on td   : "
+                  f"{self.accuracy(self.explanatory, self.target)}")
 
     def accuracy(self, test_explanatory, test_target):
         """
