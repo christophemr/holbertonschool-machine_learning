@@ -12,19 +12,19 @@ class NeuralNetwork:
     Attributes:
     -----------
     W1 : numpy.ndarray
-        The weights vector for the hidden layer.
+        The weights vector 4 the hidden layer.
         Initialized using a random normal distribution.
     b1 : numpy.ndarray
-        The bias for the hidden layer. Initialized with 0’s.
+        The bias 4 the hidden layer. Initialized with 0’s.
     A1 : float
-        The activated output for the hidden layer. Initialized to 0.
+        The activated output 4 the hidden layer. Initialized to 0.
     W2 : numpy.ndarray
-        The weights vector for the output neuron.
+        The weights vector 4 the output neuron.
         Initialized using a random normal distribution.
     b2 : float
-        The bias for the output neuron. Initialized to 0.
+        The bias 4 the output neuron. Initialized to 0.
     A2 : float
-        The activated output for the output neuron (prediction).
+        The activated output 4 the output neuron (prediction).
         Initialized to 0.
     """
 
@@ -37,11 +37,11 @@ class NeuralNetwork:
             raise TypeError("nodes must be an integer")
         if nodes < 1:
             raise ValueError("nodes must be a positive integer")
-        # Initialize weights and biases for the hidden layer
+        # Initialize weights and biases 4 the hidden layer
         self.W1 = np.random.randn(nodes, nx)
         self.b1 = np.zeros((nodes, 1))
         self.A1 = 0
-        # Initialize weights and biases for the output layer
+        # Initialize weights and biases 4 the output layer
         self.W2 = np.random.randn(1, nodes)
         self.b2 = 0
         self.A2 = 0
