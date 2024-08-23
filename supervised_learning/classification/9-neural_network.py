@@ -1,0 +1,107 @@
+#!/usr/bin/env python3
+"""This module defines a neural network with one hidden
+layer performing binary classification."""
+
+import numpy as np
+
+
+class NeuralNetwork:
+    """
+    Class that defines a neural network with one hidden
+    layer performing binary classification.
+    Attributes:
+    -----------
+    __W1 : numpy.ndarray
+        The weights vector for the hidden layer.
+        Initialized using a random normal distribution.
+    __b1 : numpy.ndarray
+        The bias for the hidden layer. Initialized with 0’s.
+    __A1 : float
+        The activated output for the hidden layer. Initialized to 0.
+    __W2 : numpy.ndarray
+        The weights vector for the output neuron.
+        Initialized using a random normal distribution.
+    __b2 : float
+        The bias for the output neuron. Initialized to 0.
+    __A2 : float
+        The activated output for the output neuron
+        (prediction). Initialized to 0.
+    Methods:
+    --------
+    __init__(self, nx, nodes):
+        Constructor for the NeuralNetwork class.
+    Getter methods:
+    ---------------
+    W1(self): Returns the weights vector for the hidden layer.
+    b1(self): Returns the bias for the hidden layer.
+    A1(self): Returns the activated output for the hidden layer.
+    W2(self): Returns the weights vector for the output neuron.
+    b2(self): Returns the bias for the output neuron.
+    A2(self): Returns the activated output for the output neuron.
+    """
+
+    def __init__(self, nx, nodes):
+        """Constructor for the NeuralNetwork class
+        Parameters:
+        -----------
+        nx : int
+            The number of input features to the neural network.
+        nodes : int
+            The number of nodes found in the hidden layer.
+        Raises:
+        -------
+        TypeError:
+            If `nx` is not an integer.
+            If `nodes` is not an integer.
+        ValueError:
+            If `nx` is less than 1.
+            If `nodes` is less than 1.
+        """
+        if not isinstance(nx, int):
+            raise TypeError("nx must be an integer")
+        if nx < 1:
+            raise ValueError("nx must be a positive integer")
+        if not isinstance(nodes, int):
+            raise TypeError("nodes must be an integer")
+        if nodes < 1:
+            raise ValueError("nodes must be a positive integer")
+        # Initialize weights and biases for the hidden layer
+        self.__W1 = np.random.randn(nodes, nx)
+        self.__b1 = np.zeros((nodes, 1))
+        self.__A1 = 0
+
+        # Initialize weights and biases for the output layer
+        self.__W2 = np.random.randn(1, nodes)
+        self.__b2 = 0
+        self.__A2 = 0
+
+    @property
+    def W1(self):
+        """Getter method for the weights vector of the hidden layer."""
+        return self.__W1
+
+    @property
+    def b1(self):
+        """Getter method for the bias of the hidden layer."""
+        return self.__b1
+
+    @property
+    def A1(self):
+        """Getter method for the activated output of the hidden layer."""
+        return self.__A1
+
+    @property
+    def W2(self):
+        """Getter method for the weights vector of the output neuron."""
+        return self.__W2
+
+    @property
+    def b2(self):
+        """Getter method for the bias of the output neuron."""
+        return self.__b2
+
+    @property
+    def A2(self):
+        """Getter method for the activated output of
+        the output neuron (prediction)."""
+        return self.__A2
