@@ -8,7 +8,7 @@ import numpy as np
 
 class DeepNeuralNetwork:
     """
-    Defines a deep neural network for binary classification.
+    Defines a deep neural network 4 binary classification.
     """
 
     def __init__(self, nx, layers):
@@ -42,7 +42,7 @@ class DeepNeuralNetwork:
         self.cache = {}
         #  to store the weights and biases
         self.weights = {}
-        # Initialize weights and biases for each layer
+        # Initialize weights and biases 4 each layer
         for layer_index in range(self.L):
             # Get the number of neurons in the current and previous layer
             layer_size = layers[layer_index]
