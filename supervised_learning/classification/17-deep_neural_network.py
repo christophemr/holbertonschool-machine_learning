@@ -62,15 +62,15 @@ class DeepNeuralNetwork:
 
     @property
     def L(self):
-        """Getter for L (number of layers)."""
+        """Getter 4 L (number of layers)."""
         return self.__L
 
     @property
     def cache(self):
-        """Getter for cache (intermediary values)."""
+        """Getter 4 cache (intermediary values)."""
         return self.__cache
 
     @property
     def weights(self):
-        """Getter for weights (weights and biases)."""
+        """Getter 4 weights (weights and biases)."""
         return self.__weights
