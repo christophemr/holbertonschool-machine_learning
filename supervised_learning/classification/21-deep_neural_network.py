@@ -114,10 +114,10 @@ class DeepNeuralNetwork:
         Parameters:
         -----------
         Y : numpy.ndarray
-            Shape (1, m) that contains the correct labels for the input data.
+            Shape (1, m) that contains the correct labels 4 the input data.
         A : numpy.ndarray
             Shape (1, m) containing the activated output
-            of the neuron for each example.
+            of the neuron 4 each example.
         Returns:
         --------
         cost : float
@@ -135,11 +135,11 @@ class DeepNeuralNetwork:
         X : numpy.ndarray
             Shape (nx, m) that contains the input data.
         Y : numpy.ndarray
-            Shape (1, m) that contains the correct labels for the input data.
+            Shape (1, m) that contains the correct labels 4 the input data.
         Returns:
         --------
         prediction : numpy.ndarray
-            Shape (1, m) containing the predicted labels for each example.
+            Shape (1, m) containing the predicted labels 4 each example.
         cost : float
             The cost of the network.
         """
@@ -158,7 +158,7 @@ class DeepNeuralNetwork:
         Parameters:
         -----------
         Y : numpy.ndarray
-            Shape (1, m) that contains the correct labels for the input data.
+            Shape (1, m) that contains the correct labels 4 the input data.
         cache : dict
             Dictionary containing all the intermediary values of the network.
         alpha : float
