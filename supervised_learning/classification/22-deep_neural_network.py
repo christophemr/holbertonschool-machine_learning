@@ -135,11 +135,11 @@ class DeepNeuralNetwork:
         X : numpy.ndarray
             Shape (nx, m) that contains the input data.
         Y : numpy.ndarray
-            Shape (1, m) that contains the correct labels for the input data.
+            Shape (1, m) that contains the correct labels 4 the input data.
         Returns:
         --------
         prediction : numpy.ndarray
-            Shape (1, m) containing the predicted labels for each example.
+            Shape (1, m) containing the predicted labels 4 each example.
         cost : float
             The cost of the network.
         """
@@ -158,7 +158,7 @@ class DeepNeuralNetwork:
         Parameters:
         -----------
         Y : numpy.ndarray
-            Shape (1, m) that contains the correct labels for the input data.
+            Shape (1, m) that contains the correct labels 4 the input data.
         cache : dict
             Dictionary containing all the intermediary values of the network.
         alpha : float
@@ -181,7 +181,7 @@ class DeepNeuralNetwork:
             # Update weights and biases
             self.__weights['W' + str(layer_index)] -= alpha * dW
             self.__weights['b' + str(layer_index)] -= alpha * db
-            # If not the first layer, calculate delta_Z for the next layer
+            # If not the first layer, calculate delta_Z 4 the next layer
             if layer_index > 1:
                 delta_Z = dA_prev * A_prev * (1 - A_prev)
 
