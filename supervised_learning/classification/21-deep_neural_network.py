@@ -181,6 +181,6 @@ class DeepNeuralNetwork:
             # Update weights and biases
             self.__weights['W' + str(layer_index)] -= alpha * dW
             self.__weights['b' + str(layer_index)] -= alpha * db
-            # If not the first layer, calculate delta_Z for the next layer
+            # If not the first layer, calculate delta_Z 4 the next layer
             if layer_index > 1:
                 delta_Z = dA_prev * A_prev * (1 - A_prev)
