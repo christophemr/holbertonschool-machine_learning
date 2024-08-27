@@ -257,7 +257,7 @@ class DeepNeuralNetwork:
                 steps.append(i)
                 if verbose:
                     print(f"Cost after {i} iterations: {cost}")
-        if (iterations - 1) % step != 0:
+        if i % step != 0:
           final_cost = self.cost(Y, A)
           costs.append(final_cost)
           steps.append(iterations)
