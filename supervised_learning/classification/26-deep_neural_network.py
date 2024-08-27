@@ -251,7 +251,7 @@ class DeepNeuralNetwork:
             self.gradient_descent(Y, cache, alpha)
 
             # Record and print cost at intervals
-            if i % step == 0:
+            if i % step == 0 or i == iterations - 1:
                 cost = self.cost(Y, A)
                 costs.append(cost)
                 steps.append(i)
