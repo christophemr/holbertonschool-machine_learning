@@ -257,12 +257,12 @@ class DeepNeuralNetwork:
                 steps.append(i)
                 if verbose:
                     print(f"Cost after {i} iterations: {cost}")
-
-        final_cost = self.cost(Y, A)
-        costs.append(final_cost)
-        steps.append(iterations)
-        if verbose:
-            print(f"Cost after {iterations} iterations: {final_cost}")
+        if (iterations - 1) % step != 0:
+          final_cost = self.cost(Y, A)
+          costs.append(final_cost)
+          steps.append(iterations)
+          if verbose:
+              print(f"Cost after {iterations} iterations: {final_cost}")
 
         # Plot cost graph if required
         if graph:
