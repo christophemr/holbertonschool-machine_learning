@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+"""
+defines function that converts a numeric label vector
+into a one-hot matrix
+"""
 
 import numpy as np
 
