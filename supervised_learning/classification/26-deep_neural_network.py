@@ -154,40 +154,6 @@ class DeepNeuralNetwork:
         cost = self.cost(Y, A)
         return prediction, cost
 
-    def gradient_descent(self, Y, cache, alpha=0.05):
-        """
-        Calculates one pass of gradient descent on the neural network.
-
-        Parameters:
-        -----------
-        Y : numpy.ndarray
-            Shape (1, m) that contains the correct labels 4 the input data.
-        cache : dict
-            Dictionary containing all the intermediary values of the network.
-        alpha : float
-            The learning rate.
-        Updates:
-        --------
-        Updates the private attribute __weights.
-        """
-        m = Y.shape[1]
-        A_last = cache['A' + str(self.__L)]
-        delta_Z = A_last - Y
-
-        for layer_index in reversed(range(1, self.__L + 1)):
-            A_prev = cache['A' + str(layer_index - 1)]
-            W = self.__weights['W' + str(layer_index)]
-
-            dW = np.matmul(delta_Z, A_prev.T) / m
-            db = np.sum(delta_Z, axis=1, keepdims=True) / m
-            dA_prev = np.matmul(W.T, delta_Z)
-            # Update weights and biases
-            self.__weights['W' + str(layer_index)] -= alpha * dW
-            self.__weights['b' + str(layer_index)] -= alpha * db
-            # If not the first layer, calculate delta_Z 4 the next layer
-            if layer_index > 1:
-                delta_Z = dA_prev * A_prev * (1 - A_prev)
-
     def train(self, X, Y, iterations=5000, alpha=0.05,
               verbose=True, graph=True, step=100):
         """
@@ -243,6 +209,7 @@ class DeepNeuralNetwork:
 
         costs = []
         steps = []
+
         for i in range(iterations):
             # Forward propagation
             A, cache = self.forward_prop(X)
@@ -257,12 +224,16 @@ class DeepNeuralNetwork:
                 steps.append(i)
                 if verbose:
                     print(f"Cost after {i} iterations: {cost}")
-        if i % step != 0:
-          final_cost = self.cost(Y, A)
-          costs.append(final_cost)
-          steps.append(iterations)
-          if verbose:
-              print(f"Cost after {iterations} iterations: {final_cost}")
+
+        # Final cost after all iterations
+        final_cost = self.cost(Y, A)
+        if verbose and (iterations % step != 0):
+            print(f"Cost after {iterations} iterations: {final_cost}")
+
+        # Append final cost if not already added
+        if iterations % step != 0:
+            costs.append(final_cost)
+            steps.append(iterations)
 
         # Plot cost graph if required
         if graph:
