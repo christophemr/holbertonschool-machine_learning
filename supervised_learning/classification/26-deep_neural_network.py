@@ -236,42 +236,31 @@ class DeepNeuralNetwork:
             raise TypeError("alpha must be a float")
         if alpha <= 0:
             raise ValueError("alpha must be positive")
-        if not isinstance(step, int):
-            raise TypeError("step must be an integer")
-        if step <= 0 or step > iterations:
-            raise ValueError("step must be positive and <= iterations")
+        if verbose or graph:
+            if not isinstance(step, int):
+                raise TypeError("step must be an integer")
+            if step <= 0 or step > iterations:
+                raise ValueError("step must be positive and <= iterations")
 
         costs = []
         steps = []
 
         for i in range(iterations):
             # Forward propagation
-            A, cache = self.forward_prop(X)
+            A, _ = self.forward_prop(X)
 
             # Gradient descent
-            self.gradient_descent(Y, cache, alpha)
-
+            self.gradient_descent(Y, self.__cache, alpha)
             # Record and print cost at intervals
             if i % step == 0 or i == iterations - 1:
                 cost = self.cost(Y, A)
                 costs.append(cost)
-                steps.append(i)
                 if verbose:
                     print(f"Cost after {i} iterations: {cost}")
 
-        # Final cost after all iterations
-        final_cost = self.cost(Y, A)
-        if verbose and (iterations % step != 0):
-            print(f"Cost after {iterations} iterations: {final_cost}")
-
-        # Append final cost if not already added
-        if iterations % step != 0:
-            costs.append(final_cost)
-            steps.append(iterations)
-
         # Plot cost graph if required
         if graph:
-            plt.plot(steps, costs, 'b')
+            plt.plot(range(0, iterations + 1, step), costs)
             plt.xlabel('Iteration')
             plt.ylabel('Cost')
             plt.title('Training Cost')
@@ -293,10 +282,8 @@ class DeepNeuralNetwork:
         # Add the .pkl extension if it's not there
         if not filename.endswith('.pkl'):
             filename += '.pkl'
-        # Ensure the file is saved in the correct directory
-        filepath = os.path.abspath(filename)
-        with open(filename, 'wb') as file:
-            pickle.dump(self, file)
+        with open(filename, 'wb') as f:
+            pickle.dump(self, f)
 
     # Add the load static method
     @staticmethod
@@ -312,8 +299,7 @@ class DeepNeuralNetwork:
         DeepNeuralNetwork or None
             The loaded object, or None if the file doesn't exist.
         """
-        try:
-            with open(filename, 'rb') as file:
-                return pickle.load(file)
-        except FileNotFoundError:
-            return None
+        if os.path.exists(filename):
+            with open(filename, 'rb') as f:
+                return pickle.load(f)
+        return None
