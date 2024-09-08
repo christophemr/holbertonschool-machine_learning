@@ -4,7 +4,6 @@ Trains a model using mini-batch gradient descent, analyzes validation data,
 applies early stopping, uses learning rate decay, and saves the best model.
 """
 import tensorflow.keras as K
-import os
 
 
 def train_model(network, data, labels, batch_size, epochs,
