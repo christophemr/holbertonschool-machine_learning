@@ -18,7 +18,7 @@ This directory contains work with noramlization, optimization, and hyperparamete
 
 3. [Mini-Batch](/supervised_learning/optimization/3-mini_batch.py)
 
-* Write a function that trains a loaded neural netwok model using mini-batch gradient descent.
+* Write a function that creates mini-batches to be used for training a neural network using mini-batcg gradient descent.
 
 4. [Moving Average](/supervised_learning/optimization/4-moving_average.py)
 
