@@ -25,7 +25,7 @@ def create_confusion_matrix(labels, logits):
     # Number of classes
     num_classes = labels.shape[1]
     # Initialize the confusion matrix with zeros
-    confusion_matrix = np.zeros((num_classes, num_classes), dtype=int)
+    confusion_matrix = np.zeros((num_classes, num_classes), dtype=float)
     # Fill the confusion matrix
     for true_label, predicted_label in zip(true_labels, predicted_labels):
         confusion_matrix[true_label, predicted_label] += 1
