@@ -1,46 +1,40 @@
 #!/usr/bin/env python3
 """
-Module for updating weights and biases of a neural network
-using gradient descent with L2 regularization.
+This module contains a fuction that update the weights and biases of a
+neural network using gradient descent withn L2 regularization
 """
-
 import numpy as np
 
 
 def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
     """
-    Updates the weights and biases of a neural network using gradient
-    descent with L2 regularization.
-
+    Updates the weights and biases of a neural network using gradient descent
+    with L2 regularization.
     Parameters:
-    Y (numpy.ndarray): One-hot matrix of shape (classes, m) containing the
-        correct labels for the data.
-    weights (dict): Dictionary of the weights and biases of the neural network.
-    cache (dict): Dictionary of the outputs of each layer of
-    the neural network.
-    alpha (float): Learning rate.
-    lambtha (float): L2 regularization parameter.
-    L (int): Number of layers in the neural network.
-
-    Returns:
-    None: The weights and biases are updated in place.
+        Y (numpy.ndarray): One-hot numpy.ndarray of shape (classes, m) that
+            contains the correct labels for the data.
+        weights (dict): Dictionary of the weights and biases..
+        cache (dict): Dictionary of the outputs of each layer.
+        alpha (float): Learning rate.
+        lambtha (float): L2 regularization parameter.
+        L (int): Number of layers of the network.
     """
-    m = Y.shape[1]  # Number of data points
-    A_L = cache['A' + str(L)]  # Output from the last layer
+    m = Y.shape[1]
+    A_prev = cache['A' + str(L - 1)]
+    A_curr = cache['A' + str(L)]
+    dZ = A_curr - Y
 
-    # Compute the gradient for the output layer (softmax layer)
-    dZ = A_L - Y  # dZ for the last layer (softmax)
-    for i in range(L, 0, -1):
-        A_prev = cache['A' + str(i - 1)]  # Activation from the previous layer
-        # Gradient for weights with L2 regularization
-        dW = (np.dot(dZ, A_prev.T) + lambtha * weights['W' + str(i)]) / m
-        # Gradient for biases
+    for layer in range(L, 0, -1):
+        A_prev = cache['A' + str(layer - 1)]
+        W = weights['W' + str(layer)]
+        b = weights['b' + str(layer)]
+
+        dW = (np.dot(dZ, A_prev.T) + lambtha * W) / m
         db = np.sum(dZ, axis=1, keepdims=True) / m
-        # Update the weights and biases
-        weights['W' + str(i)] -= alpha * dW
-        weights['b' + str(i)] -= alpha * db
-        if i > 1:
-            # Compute dA (activation gradient) for the next layer
-            dA_prev = np.dot(weights['W' + str(i)].T, dZ)
-            # Apply derivative of tanh activation function
-            dZ = dA_prev * (1 - np.square(cache['A' + str(i - 1)]))
+
+        if layer > 1:
+            dA_prev = np.dot(W.T, dZ)
+            dZ = dA_prev * (1 - A_prev ** 2)  # tanh derivative
+
+        weights['W' + str(layer)] = W - alpha * dW
+        weights['b' + str(layer)] = b - alpha * db
