@@ -18,9 +18,5 @@ def l2_reg_cost(cost, model):
     Returns:
     tensor: The total cost including L2 regularization.
     """
-    # Retrieve individual L2 regularization losses
-    l2_losses = model.losses
-    # Optionally, concatenate the L2 losses into a tensor if needed
-    l2_losses_tensor = tf.stack(l2_losses)
-    # Return the original cost along with the individual L2 losses
-    return l2_losses_tensor
+    l2_losses = cost + model.losses
+    return l2_losses
