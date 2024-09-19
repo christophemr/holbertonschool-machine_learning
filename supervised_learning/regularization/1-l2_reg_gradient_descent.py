@@ -33,7 +33,7 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
     for i in range(L, 0, -1):
         A_prev = cache['A' + str(i - 1)]  # Activation from the previous layer
         # Gradient for weights with L2 regularization
-        dW = (np.dot(dZ, A_prev.T) / m) + (lambtha / m) * weights['W' + str(i)]
+        dW = (np.dot(dZ, A_prev.T) + lambtha * weights['W' + str(i)]) / m
         # Gradient for biases
         db = np.sum(dZ, axis=1, keepdims=True) / m
         # Update the weights and biases
