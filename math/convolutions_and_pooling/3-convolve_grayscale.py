@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Defines a function that performs convolution
-on a grayscale image with given padding and stride
+on a grayscale image with given padding and stride.
 """
 
 import numpy as np
