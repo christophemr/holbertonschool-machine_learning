@@ -9,29 +9,33 @@ import numpy as np
 
 def convolve_grayscale_valid(images, kernel):
     """
-    Performs a valid convolution on grayscale images.
-    Parameters:
-        images (numpy.ndarray): 3D array of shape (m, h, w)
-        containing multiple grayscale images.
-        kernel (numpy.ndarray): 2D array of shape (kh, kw)
-        representing the kernel/filter.
-    Returns:
-        numpy.ndarray: 3D array of shape (m, output_h, output_w)
-        containing the convolved images.
+    Performs a valid convolution on grayscale images
+
+    parameters:
+        images [numpy.ndarray with shape (m, h, w)]:
+            contains multiple grayscale images
+            m: number of images
+            h: height in pixels of all images
+            w: width in pixels of all images
+        kernel [numpy.ndarray with shape (kh, kw)]:
+            contains the kernel for the convolution
+            kh: height of the kernel
+            kw: width of the kernel
+
+    function may only use two for loops maximum and no other loops are allowed
+
+    returns:
+        numpy.ndarray contained convolved images
     """
-    # Get the dimensions of images and the kernel
-    m, h, w = images.shape  # m = number of images, h = height, w = width
-    kh, kw = kernel.shape   # kh = kernel height, kw = kernel width
-    # Compute the dimensions of the output after valid convolution
-    output_h = h - kh + 1
-    output_w = w - kw + 1
-    # Initialize the output array
-    output = np.zeros((m, output_h, output_w))
-    # Perform convolution for each image
-    for img in range(m):
-        for i in range(output_h):
-            for j in range(output_w):
-                # Perform element-wise multiplication and sum the result
-                output[img, i, j] = np.sum(
-                    images[img, i:i+kh, j:j+kw] * kernel)
-    return output
+    m = images.shape[0]
+    height = images.shape[1]
+    width = images.shape[2]
+    kh = kernel.shape[0]
+    kw = kernel.shape[1]
+    convoluted = np.zeros((m, height - kh + 1, width - kw + 1))
+    for h in range(height - kh + 1):
+        for w in range(width - kw + 1):
+            output = np.sum(images[:, h: h + kh, w: w + kw] * kernel,
+                            axis=1).sum(axis=1)
+            convoluted[:, h, w] = output
+    return convoluted
