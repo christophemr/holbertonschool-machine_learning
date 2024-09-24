@@ -31,8 +31,7 @@ def convolve_grayscale_valid(images, kernel):
     for img in range(m):
         for i in range(output_h):
             for j in range(output_w):
-                # Extract the region of the image that matches the kernel size
-                image_patch = images[img, i:i+kh, j:j+kw]
                 # Perform element-wise multiplication and sum the result
-                output[img, i, j] = np.sum(image_patch * kernel)
+                output[img, i, j] = np.sum(
+                    images[img, i:i+kh, j:j+kw] * kernel)
     return output
