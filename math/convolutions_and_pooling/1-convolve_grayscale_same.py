@@ -44,7 +44,7 @@ def convolve_grayscale_same(images, kernel):
         for j in range(w):
             # Element-wise multiplication and summation over kernel area
             output = np.sum(
-              padded_images[:, i: i + kh, j: j + kw] * kernel, axis=(1, 2))
+              padded_images[:, i:i + kh, j:j + kw] * kernel, axis=(1, 2))
             convoluted[:, i, j] = output
 
     return convoluted
