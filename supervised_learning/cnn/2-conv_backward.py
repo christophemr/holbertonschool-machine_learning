@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-Defines a function that performs back propagation
-over a convolutional layer of a neural network
+Performs backpropagation over a convolutional layer of a neural network.
 """
 
 import numpy as np
@@ -9,83 +8,64 @@ import numpy as np
 
 def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     """
-    Performs back propagation over a convolutional layer of a neural network.
+    Performs backpropagation over a convolutional layer of a neural network.
+
     Parameters:
-    - dZ (numpy.ndarray): partial derivatives with respect to the unactivated
-      output of the convolutional layer (m, h_new, w_new, c_new)
-    - A_prev (numpy.ndarray): output of the previous layer
-    (m, h_prev, w_prev, c_prev)
-    - W (numpy.ndarray): kernels for the convolution (kh, kw, c_prev, c_new)
-    - b (numpy.ndarray): biases applied to the convolution (1, 1, 1, c_new)
-    - padding (str): either 'same' or 'valid', indicating the type of padding
-    used
-    - stride (tuple): (sh, sw) containing the strides for the convolution
+    - dZ (numpy.ndarray): gradient of the cost with respect to the output of the conv layer (m, h_new, w_new, c_new)
+    - A_prev (numpy.ndarray): output of the previous layer (m, h_prev, w_prev, c_prev)
+    - W (numpy.ndarray): weights of the convolution kernels (kh, kw, c_prev, c_new)
+    - b (numpy.ndarray): biases (1, 1, 1, c_new)
+    - padding (str): either "same" or "valid", specifying the padding type
+    - stride (tuple): stride for the convolution (sh, sw)
 
     Returns:
-    - dA_prev (numpy.ndarray): partial derivatives with respect
-    to the previous layer
-    - dW (numpy.ndarray): partial derivatives with respect to the kernels
-    - db (numpy.ndarray): partial derivatives with respect to the biases
+    - dA_prev: gradient of the cost with respect to the input of the conv layer (m, h_prev, w_prev, c_prev)
+    - dW: gradient of the cost with respect to the weights of the conv layer (kh, kw, c_prev, c_new)
+    - db: gradient of the cost with respect to the biases of the conv layer (1, 1, 1, c_new)
     """
-    # Retrieve dimensions from dZ's shape
+    # Retrieve dimensions from dZ's shape and other parameters
     m, h_new, w_new, c_new = dZ.shape
-    h_prev, w_prev, c_prev = A_prev.shape[1:]
-
+    m, h_prev, w_prev, c_prev = A_prev.shape
     kh, kw, _, _ = W.shape
     sh, sw = stride
 
-    # Initialize derivatives for dA_prev, dW, and db
-    dA_prev = np.zeros(A_prev.shape)
+    # Initialize gradients for A_prev, W, and b
+    dA_prev = np.zeros((m, h_prev, w_prev, c_prev))
     dW = np.zeros(W.shape)
     db = np.zeros(b.shape)
 
-    # Pad A_prev and dA_prev if necessary
-    if padding == "same":
-        ph = ((h_prev - 1) * sh + kh - h_prev) // 2
-        pw = ((w_prev - 1) * sw + kw - w_prev) // 2
-    else:
+    # Apply padding to A_prev and dA_prev if necessary
+    if padding == 'same':
+        ph = ((h_prev - 1) * sh + kh - h_new) // 2 + 1
+        pw = ((w_prev - 1) * sw + kw - w_new) // 2 + 1
+    else:  # padding == 'valid'
         ph, pw = 0, 0
 
-    A_prev_pad = np.pad(
-      A_prev, ((0, 0), (ph, ph), (pw, pw), (0, 0)),
-      mode='constant', constant_values=0)
-    dA_prev_pad = np.pad(
-      dA_prev, ((0, 0), (ph, ph), (pw, pw), (0, 0)),
-      mode='constant', constant_values=0)
+    A_prev_pad = np.pad(A_prev, ((0, 0), (ph, ph), (pw, pw), (0, 0)), 'constant')
+    dA_prev_pad = np.pad(dA_prev, ((0, 0), (ph, ph), (pw, pw), (0, 0)), 'constant')
 
-    # Compute db: sum over the training examples, height, and width
-    db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
-
-    # Loop over the training examples
+    # Loop over all training examples
     for i in range(m):
-        # Select the ith training example from A_prev_pad and dA_prev_pad
         a_prev_pad = A_prev_pad[i]
         da_prev_pad = dA_prev_pad[i]
-
-        # Loop over the height and width of the output
         for h in range(h_new):
             for w in range(w_new):
                 for c in range(c_new):
-                    # Find the corners of the current slice
                     vert_start = h * sh
                     vert_end = vert_start + kh
                     horiz_start = w * sw
                     horiz_end = horiz_start + kw
 
-                    # Get the slice of the padded input image
-                    a_slice = (
-                      a_prev_pad[vert_start:vert_end, horiz_start:horiz_end,
-                                 :])
-
-                    # Update the gradients for the slice, kernel, and input
-                    (da_prev_pad[vert_start:vert_end, horiz_start:horiz_end,
-                                 :]) += W[:, :, :, c] * dZ[i, h, w, c]
+                    # Extract the slice from A_prev_pad
+                    a_slice = a_prev_pad[vert_start:vert_end, horiz_start:horiz_end, :]
+                    da_prev_pad[vert_start:vert_end, horiz_start:horiz_end, :] += W[:, :, :, c] * dZ[i, h, w, c]
                     dW[:, :, :, c] += a_slice * dZ[i, h, w, c]
+                    db[:, :, :, c] += dZ[i, h, w, c]
 
-        # Set the ith training example's dA_prev (remove padding if applied)
-        if padding == "same":
-            dA_prev[i, :, :, :] = da_prev_pad[ph:-ph, pw:-pw, :]
+        # Update the dA_prev after removing padding
+        if padding == 'same':
+            dA_prev[i] = da_prev_pad[ph:-ph, pw:-pw, :]
         else:
-            dA_prev[i, :, :, :] = da_prev_pad
+            dA_prev[i] = da_prev_pad
 
     return dA_prev, dW, db
