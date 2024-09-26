@@ -11,17 +11,23 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     Performs backpropagation over a convolutional layer of a neural network.
 
     Parameters:
-    - dZ (numpy.ndarray): gradient of the cost with respect to the output of the conv layer (m, h_new, w_new, c_new)
-    - A_prev (numpy.ndarray): output of the previous layer (m, h_prev, w_prev, c_prev)
-    - W (numpy.ndarray): weights of the convolution kernels (kh, kw, c_prev, c_new)
+    - dZ (numpy.ndarray): gradient of the cost with respect to the output of
+    the conv layer (m, h_new, w_new, c_new)
+    - A_prev (numpy.ndarray): output of the previous layer
+    (m, h_prev, w_prev, c_prev)
+    - W (numpy.ndarray): weights of the convolution kernels
+    (kh, kw, c_prev, c_new)
     - b (numpy.ndarray): biases (1, 1, 1, c_new)
     - padding (str): either "same" or "valid", specifying the padding type
     - stride (tuple): stride for the convolution (sh, sw)
 
     Returns:
-    - dA_prev: gradient of the cost with respect to the input of the conv layer (m, h_prev, w_prev, c_prev)
-    - dW: gradient of the cost with respect to the weights of the conv layer (kh, kw, c_prev, c_new)
-    - db: gradient of the cost with respect to the biases of the conv layer (1, 1, 1, c_new)
+    - dA_prev: gradient of the cost with respect to the input of the conv layer
+    (m, h_prev, w_prev, c_prev)
+    - dW: gradient of the cost with respect to the weights of the conv layer
+    (kh, kw, c_prev, c_new)
+    - db: gradient of the cost with respect to the biases of the conv
+    layer (1, 1, 1, c_new)
     """
     # Retrieve dimensions from dZ's shape and other parameters
     m, h_new, w_new, c_new = dZ.shape
@@ -41,8 +47,10 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     else:  # padding == 'valid'
         ph, pw = 0, 0
 
-    A_prev_pad = np.pad(A_prev, ((0, 0), (ph, ph), (pw, pw), (0, 0)), 'constant')
-    dA_prev_pad = np.pad(dA_prev, ((0, 0), (ph, ph), (pw, pw), (0, 0)), 'constant')
+    A_prev_pad = np.pad(
+      A_prev, ((0, 0), (ph, ph), (pw, pw), (0, 0)), 'constant')
+    dA_prev_pad = np.pad(
+      dA_prev, ((0, 0), (ph, ph), (pw, pw), (0, 0)), 'constant')
 
     # Loop over all training examples
     for i in range(m):
@@ -57,8 +65,11 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
                     horiz_end = horiz_start + kw
 
                     # Extract the slice from A_prev_pad
-                    a_slice = a_prev_pad[vert_start:vert_end, horiz_start:horiz_end, :]
-                    da_prev_pad[vert_start:vert_end, horiz_start:horiz_end, :] += W[:, :, :, c] * dZ[i, h, w, c]
+                    a_slice = (
+                      a_prev_pad[vert_start:vert_end,
+                                 horiz_start:horiz_end, :])
+                    (da_prev_pad[vert_start:vert_end, horiz_start:horiz_end,
+                                 :]) += W[:, :, :, c] * dZ[i, h, w, c]
                     dW[:, :, :, c] += a_slice * dZ[i, h, w, c]
                     db[:, :, :, c] += dZ[i, h, w, c]
 
