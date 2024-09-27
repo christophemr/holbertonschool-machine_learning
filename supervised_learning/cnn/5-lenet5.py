@@ -1,57 +1,50 @@
 #!/usr/bin/env python3
 """
-LeNet-5 architecture in Keras
+Defines a function that builds a modified version of LeNet-5 architecture
+using Keras
 """
+
 from tensorflow import keras as K
 
 
 def lenet5(X):
     """
-    Builds the LeNet-5 architecture using Keras
-
-    Args:
-        X (K.Input): shape (m, 28, 28, 1) containing the input images
-
+    Builds a modified version of the LeNet-5 architecture using Keras.
+    Parameters:
+    - X: K.Input of shape (m, 28, 28, 1) containing the input image
     Returns:
-        model (K.Model): compiled Keras model
+    - K.Model compiled with Adam optimizer and accuracy metrics
     """
-    he_init = K.initializers.VarianceScaling(scale=2.0, seed=0)
+    he_normal = K.initializers.HeNormal(seed=0)
 
-    # Convolutional Layer 1
-    C1 = K.layers.Conv2D(filters=6, kernel_size=(5, 5), padding='same',
-                         kernel_initializer=he_init, activation='relu')(X)
-
-    # Pooling Layer 1
-    S2 = K.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(C1)
-
-    # Convolutional Layer 2
-    C3 = K.layers.Conv2D(filters=16, kernel_size=(5, 5), padding='valid',
-                         kernel_initializer=he_init, activation='relu')(S2)
-
-    # Pooling Layer 2
-    S4 = K.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(C3)
-
-    # Flatten layer
-    S4_flat = K.layers.Flatten()(S4)
-
-    # Fully Connected Layer 1
-    C5 = K.layers.Dense(units=120, kernel_initializer=he_init,
-                        activation='relu')(S4_flat)
-
-    # Fully Connected Layer 2
-    F6 = K.layers.Dense(units=84, kernel_initializer=he_init,
-                        activation='relu')(C5)
-
-    # Output Layer
-    y_pred = K.layers.Dense(units=10, kernel_initializer=he_init,
-                            activation='softmax')(F6)
-
-    # Model
-    model = K.Model(inputs=X, outputs=y_pred)
-
-    # Compile model
-    model.compile(optimizer='adam',
-                  loss='categorical_crossentropy',
-                  metrics=['accuracy'])
-
+    # Convolutional layer with 6 kernels of shape 5x5 with same padding
+    conv1 = K.layers.Conv2D(filters=6, kernel_size=(5, 5), padding='same',
+                            kernel_initializer=he_normal, activation='relu')(X)
+    # Max pooling layer with kernels of shape 2x2 with 2x2 strides
+    pool1 = K.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(conv1)
+    # Convolutional layer with 16 kernels of shape 5x5 with valid padding
+    conv2 = K.layers.Conv2D(
+      filters=16, kernel_size=(5, 5),
+      padding='valid',
+      kernel_initializer=he_normal, activation='relu')(pool1)
+    # Max pooling layer with kernels of shape 2x2 with 2x2 strides
+    pool2 = K.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(conv2)
+    # Flatten the output for the fully connected layers
+    flat = K.layers.Flatten()(pool2)
+    # Fully connected layer with 120 nodes
+    fc1 = K.layers.Dense(
+      units=120, activation='relu', kernel_initializer=he_normal)(flat)
+    # Fully connected layer with 84 nodes
+    fc2 = K.layers.Dense(
+      units=84, activation='relu', kernel_initializer=he_normal)(fc1)
+    # Fully connected softmax output layer with 10 nodes (for classification)
+    output = K.layers.Dense(
+      units=10, activation='softmax', kernel_initializer=he_normal)(fc2)
+    # Create the model
+    model = K.Model(inputs=X, outputs=output)
+    # Compile the model with Adam optimizer and accuracy metric
+    model.compile(
+      optimizer='adam',
+      loss='categorical_crossentropy',
+      metrics=['accuracy'])
     return model
