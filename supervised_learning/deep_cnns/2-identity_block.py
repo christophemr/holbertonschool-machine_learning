@@ -1,23 +1,22 @@
 #!/usr/bin/env python3
-"""
-Defines a function that builds an identity block
-as described in Deep Residual Learning for Image Recognition
-(2015)
-"""
+"""Identity Block Implementation"""
 from tensorflow import keras as K
 
 
 def identity_block(A_prev, filters):
     """
-    Builds an identity block as described in 'Deep Residual Learning for
-    Image Recognition' (2015).
+    Builds an identity block as described in Deep Residual Learning for
+    Image Recognition (2015).
 
-    Parameters:
-    - A_prev: output from the previous layer
-    - filters: a tuple or list containing F11, F3, F12 respectively
+    Args:
+        A_prev (tensor): output the previous layer.
+        filters (list/tuple): tuple or list containing F11, F3, F12.
+            - F11: number of filters in the first 1x1 convolution.
+            - F3: number of filters in the 3x3 convolution.
+            - F12: number of filters in the second 1x1 convolution.
 
     Returns:
-    - The activated output of the identity block
+        tensor: activated output of the identity block.
     """
     F11, F3, F12 = filters
 
