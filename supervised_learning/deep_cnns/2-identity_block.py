@@ -22,27 +22,27 @@ def identity_block(A_prev, filters):
     """
     F11, F3, F12 = filters
 
-    # First component of main path
+    # First component of the main path
     X = K.layers.Conv2D(filters=F11, kernel_size=(1, 1), padding='same',
                         kernel_initializer=K.initializers.he_normal(seed=0)
                         )(A_prev)
     X = K.layers.BatchNormalization(axis=3)(X)
     X = K.layers.Activation('relu')(X)
 
-    # Second component of main path
+    # Second component of the main path
     X = K.layers.Conv2D(filters=F3, kernel_size=(3, 3), padding='same',
                         kernel_initializer=K.initializers.he_normal(seed=0)
                         )(X)
     X = K.layers.BatchNormalization(axis=3)(X)
     X = K.layers.Activation('relu')(X)
 
-    # Third component of main path
+    # Third component of the main path
     X = K.layers.Conv2D(filters=F12, kernel_size=(1, 1), padding='same',
                         kernel_initializer=K.initializers.he_normal(seed=0)
                         )(X)
     X = K.layers.BatchNormalization(axis=3)(X)
 
-    # Add shortcut and pass through activation
+    # Add shortcut value to main path, and pass it through a RELU activation
     X = K.layers.Add()([X, A_prev])
     X = K.layers.Activation('relu')(X)
 
