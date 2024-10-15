@@ -20,7 +20,7 @@ class Yolo:
         nms_t: the IOU threshold for non-max suppression
         anchors: the anchor boxes
     """
-    
+
     def __init__(self, model_path, classes_path, class_t, nms_t, anchors):
         """
         Initializes the Yolo class for performing object detection
