@@ -9,14 +9,18 @@ import tensorflow.keras as k
 class Yolo:
     def __init__(self, model_path, classes_path, class_t, nms_t, anchors):
         """
-        Initializes the Yolo class for performing object detection using Yolo v3 algorithm.
-        
+        Initializes the Yolo class for performing object detection
+        using Yolo v3 algorithm.
+
         Parameters:
         - model_path: str, path to where a Darknet Keras model is stored.
-        - classes_path: str, path to where the list of class names used for the Darknet model is stored.
-        - class_t: float, representing the box score threshold for the initial filtering step.
+        - classes_path: str, path to where the list of class names
+        used for the Darknet model is stored.
+        - class_t: float, representing the box score threshold for
+        the initial filtering step.
         - nms_t: float, representing the IOU threshold for non-max suppression.
-        - anchors: numpy.ndarray of shape (outputs, anchor_boxes, 2), containing all of the anchor boxes.
+        - anchors: numpy.ndarray of shape (outputs, anchor_boxes, 2),
+        containing all of the anchor boxes.
         """
         self.model = k.models.load_model(model_path)
         self.class_names = self._load_class_names(classes_path)
@@ -27,10 +31,10 @@ class Yolo:
     def _load_class_names(self, classes_path):
         """
         Loads class names from the file specified in classes_path.
-        
+
         Parameters:
         - classes_path: str, path to the file containing class names.
-        
+
         Returns:
         - class_names: list of str, list of class names.
         """
