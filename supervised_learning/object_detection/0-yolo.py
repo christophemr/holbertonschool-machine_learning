@@ -7,6 +7,20 @@ import tensorflow.keras as k
 
 
 class Yolo:
+    """
+    Class that uses Yolo v3 algorithm to perform object detection
+
+    class constructor:
+        def __init__(self, model_path, classes_path, class_t, nms_t, anchors)
+
+    public instance attributes:
+        model: the Darknet Keras model
+        class_names: list of all the class names for the model
+        class_t: the box score threshold for the initial filtering step
+        nms_t: the IOU threshold for non-max suppression
+        anchors: the anchor boxes
+    """
+    
     def __init__(self, model_path, classes_path, class_t, nms_t, anchors):
         """
         Initializes the Yolo class for performing object detection using Yolo v3 algorithm.
