@@ -338,6 +338,9 @@ class Yolo:
             original_shape = image.shape[:2]  # (image_height, image_width)
             image_shapes.append(original_shape)
 
+            # Convert image from BGR to RGB
+            image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
             # Resize image (input_h, input_w) using inter-cubic interpolation
             resized_image = cv2.resize(
                 image, (input_w, input_h), interpolation=cv2.INTER_CUBIC)
