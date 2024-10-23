@@ -2,8 +2,7 @@
 """
 Neural Style Transfer (NST) class that performs tasks for neural
 style transfer. The class allows blending a content image with a
-style image using deep learning. It pre-processes the input images
-and provides a framework for applying NST using TensorFlow.
+style image using deep learning.
 """
 
 import numpy as np
@@ -20,9 +19,9 @@ class NST:
                              style features.
         content_layer (str): The layer used for extracting content
                              features.
-        style_image (tf.Tensor): The preprocessed style image (scaled
+        style_image (Tensor): The preprocessed style image (scaled
                                  and resized).
-        content_image (tf.Tensor): The preprocessed content image
+        content_image (Tensor): The preprocessed content image
                                    (scaled and resized).
         alpha (float): Weight for content cost (importance of content
                        in final image).
@@ -90,7 +89,7 @@ class NST:
                                 (h, w, 3).
 
         Returns:
-            tf.Tensor: A scaled image with shape (1, h_new, w_new, 3) where
+            Tensor: A scaled image with shape (1, h_new, w_new, 3) where
                        max(h_new, w_new) == 512 and the pixel values are in
                        range [0, 1].
 
