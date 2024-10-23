@@ -19,9 +19,9 @@ class NST:
                              style features.
         content_layer (str): The layer used for extracting content
                              features.
-        style_image (Tensor): The preprocessed style image (scaled
+        style_image : The preprocessed style image (scaled
                                  and resized).
-        content_image (Tensor): The preprocessed content image
+        content_image : The preprocessed content image
                                    (scaled and resized).
         alpha (float): Weight for content cost (importance of content
                        in final image).
@@ -89,7 +89,7 @@ class NST:
                                 (h, w, 3).
 
         Returns:
-            Tensor: A scaled image with shape (1, h_new, w_new, 3) where
+            A scaled image with shape (1, h_new, w_new, 3) where
                        max(h_new, w_new) == 512 and the pixel values are in
                        range [0, 1].
 
