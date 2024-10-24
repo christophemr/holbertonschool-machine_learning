@@ -216,7 +216,8 @@ class NST:
         content_feature = self.model(preprocess_content)[-1]
 
         # Calculate Gram matrices for the style features
-        gram_style_features = [self.gram_matrix(feature) for feature in style_features]
+        gram_style_features = (
+            [self.gram_matrix(feature) for feature in style_features])
 
         # Set the instance attributes
         self.gram_style_features = gram_style_features
