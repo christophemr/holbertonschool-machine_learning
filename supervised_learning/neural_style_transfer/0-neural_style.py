@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """
-Neural Style Transfer (NST) class that performs tasks for neural
-style transfer. The class allows blending a content image with a
-style image using deep learning.
+Neural Style Transfer (NST) class.
 """
 
 import numpy as np
@@ -11,22 +9,15 @@ import tensorflow as tf
 
 class NST:
     """
-    Neural Style Transfer (NST) class that performs neural style
-    transfer tasks.
+    Performs Neural Style Transfer tasks.
 
     Attributes:
-        style_layers (list): A list of layers used for extracting
-                             style features.
-        content_layer (str): The layer used for extracting content
-                             features.
-        style_image : The preprocessed style image (scaled
-                                 and resized).
-        content_image : The preprocessed content image
-                                   (scaled and resized).
-        alpha (float): Weight for content cost (importance of content
-                       in final image).
-        beta (float): Weight for style cost (importance of style in
-                      final image).
+        style_layers (list): Layers used for extracting style features.
+        content_layer (str): Layer used for extracting content features.
+        style_image: The preprocessed style image.
+        content_image: The preprocessed content image.
+        alpha (float): Weight for content cost.
+        beta (float): Weight for style cost.
     """
 
     style_layers = [
@@ -38,22 +29,18 @@ class NST:
 
     def __init__(self, style_image, content_image, alpha=1e4, beta=1):
         """
-        Initializes the NST class with style and content images and
-        their respective weights.
+        Initializes NST with style and content images and their weights.
 
         Args:
-            style_image (np.ndarray): The image used as a style
-                                      reference, expected shape (h, w, 3).
-            content_image (np.ndarray): The image used as a content
-                                        reference, expected shape (h, w, 3).
-            alpha (float): The weight for content cost. Defaults to 1e4.
-            beta (float): The weight for style cost. Defaults to 1.
+            style_image (np.ndarray): Image used as a style reference.
+            content_image (np.ndarray): Image used as a content reference.
+            alpha (float): Weight for content cost.
+            beta (float): Weight for style cost.
 
         Raises:
-            TypeError: If style_image is not a np.ndarray of shape (h, w, 3).
-            TypeError: If content_image is not a np.ndarray of shape (h, w, 3).
-            TypeError: If alpha is not a non-negative number.
-            TypeError: If beta is not a non-negative number.
+            TypeError: If style_image is not a valid image.
+            TypeError: If content_image is not a valid image.
+            TypeError: If alpha or beta are not non-negative numbers.
         """
         if not isinstance(style_image, np.ndarray) or style_image.ndim != 3 \
            or style_image.shape[2] != 3:
@@ -81,20 +68,18 @@ class NST:
     @staticmethod
     def scale_image(image):
         """
-        Rescales an image such that its pixel values are between 0 and 1
-        and its largest side is 512 pixels.
+        Rescales an image to have pixel values between 0 and 1 and
+        the largest side as 512 pixels.
 
         Args:
-            image (np.ndarray): The image to be scaled, expected shape
-                                (h, w, 3).
+            image (np.ndarray): Image to be scaled.
 
         Returns:
-            A scaled image with shape (1, h_new, w_new, 3) where
-                       max(h_new, w_new) == 512 and the pixel values are in
-                       range [0, 1].
+            A scaled image with a new shape where the largest dimension
+            is 512 pixels.
 
         Raises:
-            TypeError: If image is not a np.ndarray with shape (h, w, 3).
+            TypeError: If image is not a valid image.
         """
         if not isinstance(image, np.ndarray) or image.ndim != 3 \
            or image.shape[2] != 3:
