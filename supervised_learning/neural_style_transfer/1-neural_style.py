@@ -119,30 +119,45 @@ class NST:
 
     def load_model(self):
         """
-        Loads the VGG19 model and modifies it to output the activations of the
-        style and content layers required for neural style transfer.
+        Creates the model used to calculate cost from VGG19 Keras base model
 
-        The model's input will remain the same as the original VGG19, but the
-        output will include the activations from the layers specified in the
-        style_layers and content_layer attributes.
+        Model's input should match VGG19 input
+        Model's output should be a list containing outputs of VGG19 layers
+            listed in style_layers followed by content_layers
 
-        Returns:
-            The Keras model with the selected style and content layer outputs.
+        Saves the model in the instance attribute model
         """
         # Load the VGG19 model pre-trained on ImageNet
-        vgg = tf.keras.applications.VGG19(include_top=False,
-                                          weights='imagenet')
+        VGG19_model = tf.keras.applications.VGG19(include_top=False,
+                                                  weights='imagenet')
 
-        # Freeze the layers
-        vgg.trainable = False
+        # Save and reload the model with custom objects
+        VGG19_model.save("VGG19_base_model")
+        custom_objects = {'MaxPooling2D': tf.keras.layers.AveragePooling2D}
 
-        # Get outputs of the selected style and content layers
-        style_outputs = (
-            [vgg.get_layer(layer).output for layer in self.style_layers])
-        content_output = vgg.get_layer(self.content_layer).output
+        # Load the model with custom objects
+        vgg = tf.keras.models.load_model("VGG19_base_model",
+                                         custom_objects=custom_objects)
 
-        # Model that takes VGG19 inputs and outputs style and content layers
-        model_outputs = style_outputs + [content_output]
-        model = tf.keras.Model(inputs=vgg.input, outputs=model_outputs)
+        # Initialize lists for outputs
+        style_outputs = []
+        content_output = None
 
-        return model
+        # Iterate through the layers of the model & collect the desired outputs
+        for layer in vgg.layers:
+            if layer.name in self.style_layers:
+                style_outputs.append(layer.output)
+            if layer.name == self.content_layer:
+                content_output = layer.output
+
+            # Freeze the layer to make it non-trainable
+            layer.trainable = False
+
+        # Combine the style and content outputs
+        outputs = style_outputs + [content_output]
+
+        # Create the model that outputs the desired layers
+        model = tf.keras.models.Model(inputs=vgg.input, outputs=outputs)
+
+        # Save the model in the instance attribute
+        self.model = model
