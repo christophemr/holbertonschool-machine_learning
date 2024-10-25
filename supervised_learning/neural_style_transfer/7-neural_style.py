@@ -341,28 +341,21 @@ class NST:
                 f"{self.content_image.shape}"
             )
 
-        # Preprocess the generated image
         preprocess_generated = tf.keras.applications.vgg19.preprocess_input(
             generated_image * 255
         )
 
-        # Extract the content and style outputs from the preprocessed
-        # generated image
         generated_outputs = self.model(preprocess_generated)
 
-        # Separate the style and content outputs
         style_outputs = generated_outputs[:len(self.style_layers)]
         content_output = generated_outputs[len(self.style_layers):][0]
 
-        # Calculate the content cost
         J_content = self.content_cost(content_output)
         print("Content cost:", J_content)
 
-        # Calculate the style cost
         J_style = self.style_cost(style_outputs)
         print("Style cost:", J_style)
 
-        # Total cost is the weighted sum of content and style costs
         J = self.alpha * J_content + self.beta * J_style
 
         return J, J_content, J_style
