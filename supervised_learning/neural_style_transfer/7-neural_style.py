@@ -333,21 +333,6 @@ class NST:
 
     def total_cost(self, generated_image):
         """
-        Calculates the total cost for the generated image.
-
-        Args:
-            generated_image (tf.Tensor): A tensor of shape (1, nh, nw, 3)
-            containing the generated image.
-
-        Raises:
-            TypeError: If generated_image is not a tensor with the same shape
-                    as self.content_image.
-
-        Returns:
-            tuple: (J, J_content, J_style)
-                J is the total cost.
-                J_content is the content cost.
-                J_style is the style cost.
         """
         if not isinstance(generated_image, (tf.Tensor, tf.Variable)) or \
                 generated_image.shape != self.content_image.shape:
