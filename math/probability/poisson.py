@@ -76,3 +76,24 @@ class Poisson:
         # Calculate the PMF using the Poisson formula
         pmf_value = (self.lambtha ** k * e ** -self.lambtha) / factorial
         return pmf_value
+
+    def cdf(self, k):
+        """
+        Calculates the Cumulative Distribution Function for a given number
+        of “successes”
+
+        Parameters:
+            k (int): number of “successes”
+
+        Returns:
+            float: CDF value for k
+        """
+        if not isinstance(k, int):
+            k = int(k)
+        if k < 0:
+            return 0
+        # Calculate the cumulative sum of PMF values from 0 to k
+        cumulative_prob = 0
+        for i in range(k + 1):
+            cumulative_prob += self.pmf(i)
+        return cumulative_prob
