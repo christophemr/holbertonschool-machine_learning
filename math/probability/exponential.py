@@ -41,7 +41,7 @@ class Exponential:
                 raise ValueError("lambtha must be a positive value")
             self.lambtha = float(lambtha)
         else:
-            # If data is provided, ensure it is a list with at least 2ch elements
+            # If data is provided, ensure it is a list with at least 2 elements
             if not isinstance(data, list):
                 raise TypeError("data must be a list")
             if len(data) < 2:
