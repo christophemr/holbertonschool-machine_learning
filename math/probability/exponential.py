@@ -66,3 +66,22 @@ class Exponential:
         # Calculate the PDF using the formula
         pdf_value = self.lambtha * e ** (-self.lambtha * x)
         return pdf_value
+
+    def cdf(self, x):
+        """
+        Calculates the value of the Cumulative Distribution Function
+        for a given time period
+
+        Parameters:
+            x (float): time period
+
+        Returns:
+            float: CDF value for x, or 0 if x is out of range
+        """
+        if x < 0:
+            return 0
+        # Approximation of e
+        e = 2.7182818285
+        # Calculate the CDF using the formula
+        cdf_value = 1 - e ** (-self.lambtha * x)
+        return cdf_value
