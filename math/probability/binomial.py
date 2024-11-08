@@ -45,3 +45,41 @@ class Binomial:
             self.p = 1 - (variance / mean)  # Estimate p
             self.n = round(mean / self.p)  # Estimate n
             self.p = mean / self.n  # Recalculate p
+
+    def factorial(self, num):
+        """
+        Calculates the factorial of a number manually.
+
+        Parameters:
+            num (int): Number to calculate factorial for.
+
+        Returns:
+            int: Factorial of num.
+        """
+        if num == 0 or num == 1:
+            return 1
+        factorial = 1
+        for i in range(2, num + 1):
+            factorial *= i
+        return factorial
+
+    def pmf(self, k):
+        """
+        Calculates the PMF for a given number of successes
+
+        Parameters:
+            k (int): Number of successes
+
+        Returns:
+            float: PMF value for k, or 0 if k is out of range.
+        """
+        k = int(k)
+        if k < 0 or k > self.n:
+            return 0
+
+        # Calculate binomial coefficient
+        n_choose_k = (self.factorial(self.n) /
+                      (self.factorial(k) * self.factorial(self.n - k)))
+        # Calculate PMF
+        pmf_value = n_choose_k * (self.p ** k) * ((1 - self.p) ** (self.n - k))
+        return pmf_value
