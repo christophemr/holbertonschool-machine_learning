@@ -1,4 +1,4 @@
-#!usr/bin/env python 3
+#!/usr/bin/env python 3
 """
 Function to test the optimum number of clusters by variance
 """
