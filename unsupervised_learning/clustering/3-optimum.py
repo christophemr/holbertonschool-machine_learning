@@ -1,6 +1,6 @@
-#!/usr/bin/env python 3
+#!/usr/bin/env python3
 """
-Function to test the optimum number of clusters by variance
+Function to test the optimum number of clusters by variance.
 """
 
 import numpy as np
