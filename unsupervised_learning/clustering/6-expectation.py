@@ -47,8 +47,8 @@ def expectation(X, pi, m, S):
         g = likelihoods / likelihoods.sum(axis=0, keepdims=True)
 
         # Total log likelihood
-        l = np.sum(np.log(likelihoods.sum(axis=0)))
+        log = np.sum(np.log(likelihoods.sum(axis=0)))
 
-        return g, l
+        return g, log
     except Exception:
         return None, None
