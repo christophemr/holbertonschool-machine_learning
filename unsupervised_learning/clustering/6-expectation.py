@@ -40,7 +40,7 @@ def expectation(X, pi, m, S):
         k = pi.shape[0]
         n, d = X.shape
 
-        # Calculate the likelihood for each cluster
+        # Calculate the likelihood 4 each cluster
         likelihoods = np.array([pi[i] * pdf(X, m[i], S[i]) for i in range(k)])
 
         # Posterior probabilities (responsibilities)
