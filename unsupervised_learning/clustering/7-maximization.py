@@ -16,14 +16,18 @@ def maximization(X, g):
 
     Returns:
         pi (numpy.ndarray): Updated priors for each cluster, shape (k,)
-        m (numpy.ndarray): Updated centroid means for each cluster, shape (k, d)
-        S (numpy.ndarray): Updated covariance matrices for each cluster, shape (k, d, d)
+        m (numpy.ndarray): Updated centroid means for each cluster,
+        shape (k, d)
+        S (numpy.ndarray): Updated covariance matrices for each cluster,
+        shape (k, d, d)
     """
     try:
         # Validate inputs
         if not isinstance(X, np.ndarray) or X.ndim != 2:
             return None, None, None
         if not isinstance(g, np.ndarray) or g.ndim != 2:
+            return None, None, None
+        if X.shape[0] != g.shape[1]:
             return None, None, None
 
         n, d = X.shape
@@ -41,7 +45,8 @@ def maximization(X, g):
         S = np.zeros((k, d, d))
         for i in range(k):
             diff = X - m[i]
-            weighted_diff = g[i, :, None, None] * np.einsum('ij,ik->ijk', diff, diff)
+            weighted_diff = (
+                g[i, :, None, None] * np.einsum('ij,ik->ijk', diff, diff))
             S[i] = weighted_diff.sum(axis=0) / g[i].sum()
 
         return pi, m, S
