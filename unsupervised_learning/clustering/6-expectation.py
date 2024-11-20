@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Function to perform the expectation step in the EM algorithm for a GMM
+Function to perform the expectation step in the EM algorithm 4 a GMM
 """
 
 import numpy as np
@@ -9,17 +9,17 @@ pdf = __import__('5-pdf').pdf
 
 def expectation(X, pi, m, S):
     """
-    Calculates the expectation step in the EM algorithm for a GMM.
+    Calculates the expectation step in the EM algorithm 4 a GMM.
 
     Parameters:
         X (numpy.ndarray): Data set of shape (n, d)
         pi (numpy.ndarray): Priors for each cluster, shape (k,)
-        m (numpy.ndarray): Centroid means for each cluster, shape (k, d)
-        S (numpy.ndarray): Covariance matrices for each cluster,
+        m (numpy.ndarray): Centroid means 4 each cluster, shape (k, d)
+        S (numpy.ndarray): Covariance matrices 4 each cluster,
         shape (k, d, d)
 
     Returns:
-        g (numpy.ndarray): Posterior probabilities for each data point
+        g (numpy.ndarray): Posterior probabilities 4 each data point
         in each cluster, shape (k, n)
         l (float): Total log likelihood
         or None, None on failure
