@@ -66,9 +66,9 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
                 return None, None, None, None, None
 
         # Final verbose logging
-    if verbose:
-        print(f"Log Likelihood after {i} iterations: {l:.5f}")
-        return pi, m, S, g, l
+        if verbose:
+            print(f"Log Likelihood after {i} iterations: {l:.5f}")
+            return pi, m, S, g, l
 
     except Exception as e:
         print(f"Error during computation: {e}")
