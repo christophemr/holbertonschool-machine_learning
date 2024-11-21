@@ -47,19 +47,19 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         l_prev = 0  # Initialize previous log likelihood
         for i in range(iterations):
             # Expectation Step
-            g, log = expectation(X, pi, m, S)
-            if g is None or log is None:
+            g, l = expectation(X, pi, m, S)
+            if g is None or l is None:
                 return None, None, None, None, None
 
             # Verbose logging
             if verbose and (i % 10 == 0 or i == iterations - 1 or
-                            abs(log - l_prev) <= tol):
-                print(f"Log Likelihood after {i} iterations: {log:.5f}")
+                            abs(l - l_prev) <= tol):
+                print(f"Log Likelihood after {i} iterations: {l:.5f}")
 
             # Convergence check
-            if abs(log - l_prev) <= tol:
+            if abs(l - l_prev) <= tol:
                 break
-            l_prev = log
+            l_prev = l
 
             # Maximization Step
             pi, m, S = maximization(X, g)
@@ -69,7 +69,7 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         if verbose:
             print(f"Log Likelihood after {i} iterations: {l:.5f}")
 
-        return pi, m, S, g, log
+        return pi, m, S, g, l
 
     except Exception as e:
         print(f"Error during computation: {e}")
