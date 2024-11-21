@@ -52,7 +52,7 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
                 return None, None, None, None, None
 
             # Verbose logging
-            if verbose and (i % 10 == 0 or i == iterations - 1):
+            if verbose and (i % 10 == 0):
                 print(f"Log Likelihood after {i} iterations: {l:.5f}")
 
             # Convergence check
@@ -68,7 +68,7 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         # Final verbose logging
         if verbose:
             print(f"Log Likelihood after {i} iterations: {l:.5f}")
-        return pi, m, S, g, l
+        return pi, m, S, g, round(l, 5)
 
     except Exception as e:
         print(f"Error during computation: {e}")
