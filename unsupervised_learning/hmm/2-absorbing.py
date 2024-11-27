@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Determines if a Markov chain is absorbing.
+Determines if a Markov chain is absorbing
 """
 
 import numpy as np
