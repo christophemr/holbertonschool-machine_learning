@@ -41,22 +41,19 @@ class BayesianOptimization:
         # Determine the best current sample value
         if self.minimize:
             best_sample_value = np.min(self.gp.Y)
-            improvement = best_sample_value - mean - self.xsi
+            improve = best_sample_value - mean - self.xsi
         else:
             best_sample_value = np.max(self.gp.Y)
-            improvement = mean - best_sample_value - self.xsi
+            improve = mean - best_sample_value - self.xsi
 
         # Handle division by zero in standard deviation
         with np.errstate(divide='ignore'):
-            standard_score = improvement / std_dev
-            expected_improvement = (
-                improvement * norm.cdf(standard_score)
-                + std_dev * norm.pdf(standard_score)
-            )
+            score = improve / std_dev
+            expected = (improve * norm.cdf(score) + std_dev * norm.pdf(score))
 
-            expected_improvement[std_dev == 0.0] = 0.0
+            expected[std_dev == 0.0] = 0.0
 
         # Find the sample point with the maximum Expected Improvement
-        next_sample = self.X_s[np.argmax(expected_improvement)]
+        next_sample = self.X_s[np.argmax(expected)]
 
-        return next_sample, expected_improvement
+        return next_sample, expected
