@@ -49,8 +49,11 @@ class BayesianOptimization:
         # Handle division by zero in standard deviation
         with np.errstate(divide='ignore'):
             standard_score = improvement / std_dev
-            expected_improvement = (improvement * norm.cdf(standard_score)
-                                    + std_dev * norm.pdf(standard_score))
+            expected_improvement = (
+                improvement * norm.cdf(standard_score)
+                + std_dev * norm.pdf(standard_score)
+            )
+
             expected_improvement[std_dev == 0.0] = 0.0
 
         # Find the sample point with the maximum Expected Improvement
