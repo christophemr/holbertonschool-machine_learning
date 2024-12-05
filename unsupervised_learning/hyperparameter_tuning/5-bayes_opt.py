@@ -74,7 +74,7 @@ class BayesianOptimization:
             X_next, _ = self.acquisition()
 
             # Check if the next sample is already in the sampled inputs
-            if X_next in self.gp.X:
+            if any(np.allclose(X_next, x) for x in self.gp.X):
                 break
 
             # Evaluate the black-box function at the new sample
