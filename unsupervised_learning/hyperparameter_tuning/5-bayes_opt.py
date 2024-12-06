@@ -15,16 +15,17 @@ class BayesianOptimization:
     """
 
     def __init__(self, f, X_init, Y_init, bounds, ac_samples,
-                 l=1, sigma_f=1, xsi=0.01, minimize=True):
+                 l=1, sigma_f=1, xsi=0.01, minimize=True, redundancy_threshold=1e-3):
         """
         Initializes the BayesianOptimization class
         """
         self.f = f
         self.gp = GP(X_init, Y_init, l, sigma_f)
         min_bound, max_bound = bounds
-        self.X_s = np.linspace(min_bound, max_bound, ac_samples).reshape(-1, 1)
+        self.X_s = np.linspace(min_bound, max_bound, 50).reshape(-1, 1)
         self.xsi = xsi
         self.minimize = minimize
+        self.redundancy_threshold = redundancy_threshold
 
     def acquisition(self):
         """
@@ -58,6 +59,10 @@ class BayesianOptimization:
 
         return next_sample, expected
 
+    def is_redundant(self, X_next, X_samples, threshold=1e-3):
+        """Checks if a sample point is redundant based on threshold."""
+        return np.any(np.linalg.norm(X_next - X_samples, axis=1) < threshold)
+
     def optimize(self, iterations=100):
         """
         Optimizes the black-box function.
@@ -69,27 +74,25 @@ class BayesianOptimization:
             X_opt (numpy.ndarray): The optimal point.
             Y_opt (numpy.ndarray): The optimal function value.
         """
-        for _ in range(iterations):
-            # Get the next best sample location
-            X_next, _ = self.acquisition()
 
-            # Check if the next sample is already in the sampled inputs
-            if any(np.allclose(X_next, x) for x in self.gp.X):
-                break
+        for i in range(iterations):
+            # Calculate next sample point
+            X_next, EI = self.acquisition()
 
-            # Evaluate the black-box function at the new sample
+            # Stop if next sample point is redundant
+            if self.is_redundant(X_next, self.gp.X):
+                continue
+            # Reset redundant counter and update GP
             Y_next = self.f(X_next)
-
-            # Update the Gaussian process with the new sample
             self.gp.update(X_next, Y_next)
 
-        # Identify the optimal point and value
+        # Find optimal point
         if self.minimize:
-            idx_opt = np.argmin(self.gp.Y)
+            best_idx = np.argmin(self.gp.Y)
         else:
-            idx_opt = np.argmax(self.gp.Y)
+            best_idx = np.argmax(self.gp.Y)
 
-        X_opt = self.gp.X[idx_opt]
-        Y_opt = self.gp.Y[idx_opt]
+        X_opt = self.gp.X[best_idx]
+        Y_opt = self.gp.Y[best_idx]
 
         return X_opt, Y_opt
