@@ -10,9 +10,8 @@ def autoencoder(input_dims, filters, latent_dims):
 
     Args:
         input_dims (tuple): Dimensions of the model input.
-        filters (list): List of integers, the number of filters for
-        each convolutional
-        layer in the encoder.
+        filters (list): List of integers, the number of filters for each
+        convolutional layer in the encoder.
         latent_dims (tuple): Dimensions of the latent space representation.
 
     Returns:
@@ -48,16 +47,9 @@ def autoencoder(input_dims, filters, latent_dims):
     x = (keras.layers.Conv2D(filters=input_dims[-1], kernel_size=(3, 3),
                              padding='same', activation='sigmoid')(x))
 
-    # Cropping to adjust dimensions precisely to input_dims
-    cropping_h = (
-        x.shape[1] - input_dims[0]
-        if x.shape[1] > input_dims[0] else 0)
-    cropping_w = (
-        x.shape[2] - input_dims[1]
-        if x.shape[2] > input_dims[1] else 0)
-    if cropping_h > 0 or cropping_w > 0:
-        x = (keras.layers.Cropping2D(cropping=((0, cropping_h),
-                                               (0, cropping_w)))(x))
+    # Ensure decoder output matches input dimensions
+    x = (keras.layers.Lambda(
+        lambda t: t[:, :input_dims[0], :input_dims[1], :])(x))
 
     decoder = keras.Model(decoder_input, x, name="decoder")
 
