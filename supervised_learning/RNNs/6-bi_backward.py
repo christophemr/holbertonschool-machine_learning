@@ -28,12 +28,12 @@ class BidirectionalCell:
             h (int): Dimensionality of the hidden states.
             o (int): Dimensionality of the outputs.
         """
-        self.Whf = np.random.normal(size=(i + h, h))  # Forward hidden weights
-        self.bhf = np.zeros((1, h))                   # Forward hidden biases
-        self.Whb = np.random.normal(size=(i + h, h))  # Backward hidden weights
-        self.bhb = np.zeros((1, h))                   # Backward hidden biases
-        self.Wy = np.random.normal(size=(2 * h, o))   # Output weights
-        self.by = np.zeros((1, o))                    # Output biases
+        self.Whf = np.random.normal(size=(i + h, h))
+        self.bhf = np.zeros((1, h))
+        self.Whb = np.random.normal(size=(i + h, h))
+        self.bhb = np.zeros((1, h))
+        self.Wy = np.random.normal(size=(2 * h, o))
+        self.by = np.zeros((1, o))
 
     def forward(self, h_prev, x_t):
         """
