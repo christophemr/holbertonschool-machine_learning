@@ -30,6 +30,7 @@ def fasttext_model(sentences, vector_size=100, min_count=5, negative=5,
     cbow_or_sg = 0 if cbow else 1
 
     model = gensim.models.FastText(
+        sentences=sentences,
         vector_size=vector_size,
         window=window,
         min_count=min_count,
