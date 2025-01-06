@@ -12,7 +12,7 @@ def word2vec_model(sentences, vector_size=100, min_count=5, window=5,
     Creates, builds, and trains a Word2Vec model.
 
     Parameters:
-        sentences (list): List of tokenized sentences to be trained on
+        sentences (list): List of sentences to be trained on
         vector_size (int): Dimensionality of the embedding layer
         min_count (int): Minimum number of occurrences of a word
         for use in training
