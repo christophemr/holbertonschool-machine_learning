@@ -11,14 +11,16 @@ def uni_bleu(references, sentence):
     Calculates the unigram BLEU score for a sentence
 
     Parameters:
-        references (list of list of str): List of reference translations
+        references (list of list of str): List of reference
+        translations
         sentence (list of str): Model-proposed sentence
 
     Returns:
         float: Unigram BLEU score
     """
-    # Step 1: Count matching words with clipping
-    sentence_word_counts = {word: sentence.count(word) for word in sentence}
+    # Count matching words with clipping
+    sentence_word_counts = (
+        {word: sentence.count(word) for word in sentence})
     clipped_counts = {}
 
     for word in sentence_word_counts:
@@ -30,7 +32,7 @@ def uni_bleu(references, sentence):
     total_matches = sum(clipped_counts.values())
     precision = total_matches / len(sentence)
 
-    # Step 2: Compute brevity penalty
+    # Compute brevity penalty
     sentence_length = len(sentence)
     reference_lengths = [len(ref) for ref in references]
     closest_ref_length = min(
@@ -42,7 +44,7 @@ def uni_bleu(references, sentence):
     else:
         brevity_penalty = np.exp(1 - closest_ref_length / sentence_length)
 
-    # Step 3: Calculate BLEU score
+    # Calculate BLEU score
     bleu_score = brevity_penalty * precision
 
     return bleu_score
