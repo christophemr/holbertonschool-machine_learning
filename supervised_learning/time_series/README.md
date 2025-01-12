@@ -2,8 +2,8 @@
 This directory applies knowledge of RNNs to predict the value of Bitcoin with Time Series Forecasting:
 
 ## Mandatory Tasks:
-. [When to Invest](/supervised_learning/times_series/forecast_btc.py)
-.  [Everyone Wants to Know](/supervised_learning/time_series/forecast_btc.py)
+0. [When to Invest](/supervised_learning/times_series/forecast_btc.py)
+1.  [Everyone Wants to Know](/supervised_learning/time_series/forecast_btc.py)
  Given the coinbase and bitstamp datasets, write a script, forecast_btc.py, that creates, trains, and validates a keras model for the forecasting of BTC:
 
 Your model should use the past 24 hours of BTC data to predict the value of BTC at the close of the following hour (approximately how long the average transaction takes):
