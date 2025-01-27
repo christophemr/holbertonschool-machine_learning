@@ -3,7 +3,6 @@
 for machine translation
 """
 
-import tensorflow.compat.v2 as tf  # type: ignore
 import tensorflow_datasets as tfds
 from transformers import AutoTokenizer
 
