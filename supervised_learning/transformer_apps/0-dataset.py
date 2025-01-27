@@ -3,10 +3,6 @@
 
 import tensorflow_datasets as tfds
 import transformers
-import os
-
-# Suppress TensorFlow logs
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
 class Dataset:
