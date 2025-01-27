@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-"""Defines the class Dataset that loads and preps a dataset for machine translation."""
+"""Defines the class Dataset that loads and preps a dataset
+for machine translation."""
 
 import tensorflow_datasets as tfds
 import transformers
-import os
 
-# Suppress TensorFlow logs
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 class Dataset:
     """
@@ -52,7 +50,8 @@ class Dataset:
         )
 
         # Create tokenizers
-        self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(self.data_train)
+        self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(
+            self.data_train)
 
     def tokenize_dataset(self, data):
         """
@@ -73,8 +72,10 @@ class Dataset:
         en_sentences = [sentence.decode('utf-8') for sentence in en_sentences]
 
         # Load pre-trained tokenizers from Transformers
-        tokenizer_pt = transformers.AutoTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased', use_fast=True)
-        tokenizer_en = transformers.AutoTokenizer.from_pretrained('bert-base-uncased', use_fast=True)
+        tokenizer_pt = transformers.AutoTokenizer.from_pretrained(
+            'neuralmind/bert-base-portuguese-cased', use_fast=True)
+        tokenizer_en = transformers.AutoTokenizer.from_pretrained(
+            'bert-base-uncased', use_fast=True)
 
         # Train the tokenizers on the extracted sentences
         tokenizer_pt.train_new_from_iterator(pt_sentences, vocab_size=2**13)
