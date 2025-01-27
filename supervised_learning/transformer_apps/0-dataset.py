@@ -3,7 +3,10 @@
 
 import tensorflow_datasets as tfds
 import transformers
+import os
 
+# Suppress TensorFlow logs
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 class Dataset:
     """
@@ -51,23 +54,6 @@ class Dataset:
         # Create tokenizers
         self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(self.data_train)
 
-    def normalize_sentence(self, sentence):
-        """
-        Normalizes the spacing around punctuation in a sentence.
-        Args:
-            sentence (str): The sentence to normalize.
-        Returns:
-            str: The normalized sentence.
-        """
-        normalized = ""
-        for i, char in enumerate(sentence):
-            # Remove spaces before punctuation
-            if char in ",.?!":
-                if i > 0 and sentence[i - 1] == " ":
-                    normalized = normalized[:-1]
-            normalized += char
-        return " ".join(normalized.split())
-
     def tokenize_dataset(self, data):
         """
         Creates sub-word tokenizers for our dataset.
@@ -81,34 +67,17 @@ class Dataset:
             tokenizer_pt: Portuguese tokenizer
             tokenizer_en: English tokenizer
         """
-        # Load pre-trained tokenizers
-        tokenizer_pt = transformers.AutoTokenizer.from_pretrained(
-            "neuralmind/bert-base-portuguese-cased",
-            vocab_size=2**13
-        )
-        tokenizer_en = transformers.AutoTokenizer.from_pretrained(
-            "bert-base-uncased",
-            vocab_size=2**13
-        )
+        # Extract Portuguese and English sentences
+        pt_sentences, en_sentences = list(zip(*data.as_numpy_iterator()))
+        pt_sentences = [sentence.decode('utf-8') for sentence in pt_sentences]
+        en_sentences = [sentence.decode('utf-8') for sentence in en_sentences]
 
-        # Normalize and compare a sample
-        for pt, en in data.take(1):
-            pt_sentence = pt.numpy().decode("utf-8").strip()
-            en_sentence = en.numpy().decode("utf-8").strip()
+        # Load pre-trained tokenizers from Transformers
+        tokenizer_pt = transformers.AutoTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased', use_fast=True)
+        tokenizer_en = transformers.AutoTokenizer.from_pretrained('bert-base-uncased', use_fast=True)
 
-            # Apply normalization
-            pt_sentence = self.normalize_sentence(pt_sentence)
-            en_sentence = self.normalize_sentence(en_sentence)
-
-            # Tokenize and decode to verify consistency
-            pt_tokenized = tokenizer_pt(pt_sentence, return_tensors="pt")["input_ids"]
-            en_tokenized = tokenizer_en(en_sentence, return_tensors="pt")["input_ids"]
-
-            pt_decoded = self.normalize_sentence(
-                tokenizer_pt.decode(pt_tokenized[0], skip_special_tokens=True, clean_up_tokenization_spaces=False)
-            )
-            en_decoded = self.normalize_sentence(
-                tokenizer_en.decode(en_tokenized[0], skip_special_tokens=True, clean_up_tokenization_spaces=False)
-            )
+        # Train the tokenizers on the extracted sentences
+        tokenizer_pt.train_new_from_iterator(pt_sentences, vocab_size=2**13)
+        tokenizer_en.train_new_from_iterator(en_sentences, vocab_size=2**13)
 
         return tokenizer_pt, tokenizer_en
