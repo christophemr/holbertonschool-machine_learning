@@ -76,7 +76,9 @@ class Dataset:
             'bert-base-uncased', use_fast=True)
 
         # Train the tokenizers on the extracted sentences
-        tokenizer_pt.train_new_from_iterator(pt_sentences, vocab_size=2**13,)
-        tokenizer_en.train_new_from_iterator(en_sentences, vocab_size=2**13)
+        tokenizer_pt = tokenizer_pt.train_new_from_iterator(
+            pt_sentences, vocab_size=2**13,)
+        tokenizer_en = tokenizer_en.train_new_from_iterator(
+            en_sentences, vocab_size=2**13)
 
         return tokenizer_pt, tokenizer_en
