@@ -28,8 +28,6 @@ class Dataset:
     instance method:
         def tokenize_dataset(self, data):
             Creates sub-word tokenizers for our dataset.
-        def normalize_sentence(self, sentence):
-            Normalizes spacing around punctuation in a sentence.
     """
     def __init__(self):
         """
@@ -41,7 +39,7 @@ class Dataset:
             'ted_hrlr_translate/pt_to_en',
             split='train',
             as_supervised=True
-        ).take(10000).cache()
+        )
 
         self.data_valid = tfds.load(
             'ted_hrlr_translate/pt_to_en',
