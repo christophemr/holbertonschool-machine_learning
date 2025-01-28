@@ -71,14 +71,14 @@ class Dataset:
 
         # Load pre-trained tokenizers from Transformers
         tokenizer_pt = transformers.AutoTokenizer.from_pretrained(
-            'neuralmind/bert-base-portuguese-cased', use_fast=True)
+            'neuralmind/bert-base-portuguese-cased', use_fast=True,
+            clean_up_tokenization_spaces=True)
         tokenizer_en = transformers.AutoTokenizer.from_pretrained(
-            'bert-base-uncased', use_fast=True)
+            'bert-base-uncased', use_fast=True,
+             clean_up_tokenization_spaces=True)
 
         # Train the tokenizers on the extracted sentences
-        tokenizer_pt.train_new_from_iterator(pt_sentences, vocab_size=2**13,
-                                             clean_up_tokenization_spaces=True)
-        tokenizer_en.train_new_from_iterator(en_sentences, vocab_size=2**13,
-                                             clean_up_tokenization_spaces=True)
+        tokenizer_pt.train_new_from_iterator(pt_sentences, vocab_size=2**13,)
+        tokenizer_en.train_new_from_iterator(en_sentences, vocab_size=2**13)
 
         return tokenizer_pt, tokenizer_en
