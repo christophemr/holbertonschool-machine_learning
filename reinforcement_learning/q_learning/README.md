@@ -1,7 +1,4 @@
-# reinforcement_learning
-This directory contains projects for building reinforcement learning models.
-
-# q_learning
+# qq_learning
 This directory contains initial work with reinforcement learning through Q Learning:
 
 ## Mandatory Tasks:
