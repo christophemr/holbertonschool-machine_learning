@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+"""
+function that loads pre-made FrozenLakeEnv environment
+from OpenAI's gym
+"""
 
 import gymnasium as gym
 
