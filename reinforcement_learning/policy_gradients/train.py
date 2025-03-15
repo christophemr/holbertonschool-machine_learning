@@ -2,8 +2,8 @@
 """
 Training loop for Monte-Carlo policy gradient on CartPole
 """
+
 import numpy as np
-import gymnasium as gym
 policy_gradient = __import__('policy_gradient').policy_gradient
 
 
@@ -61,9 +61,6 @@ def train(env, nb_episodes, alpha=0.000045, gamma=0.98):
             G = r + gamma * G
             returns.insert(0, G)
         returns = np.array(returns)
-
-        # Normalize returns for more stable training (optional but recommended)
-        returns = (returns - np.mean(returns)) / (np.std(returns) + 1e-8)
 
         # Update policy weights using the gradients and returns
         for i in range(len(grads)):
