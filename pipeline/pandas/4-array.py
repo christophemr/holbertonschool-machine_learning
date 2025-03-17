@@ -4,8 +4,6 @@ Selects last 10 rows of High and Close columns from a DataFrame and
 converts them to a numpy.ndarray.
 """
 
-import numpy as np
-
 
 def array(df):
     """
