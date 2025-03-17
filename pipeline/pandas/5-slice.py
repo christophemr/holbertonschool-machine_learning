@@ -3,8 +3,6 @@
 Slicing specific columns and rows from a DataFrame.
 """
 
-import pandas as pd
-
 
 def slice(df):
     """
