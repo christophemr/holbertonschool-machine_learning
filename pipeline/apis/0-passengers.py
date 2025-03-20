@@ -18,7 +18,7 @@ def availableShips(passengerCount):
         list: List of ship names that can hold the given number of passengers.
     """
     ships = []
-    next_page = "https://swapi.py4e.com/api/starships/"
+    next_page = "https://swapi-api.hbtn.io/api/starships/"
 
     while next_page:
         response = requests.get(next_page)
