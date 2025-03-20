@@ -9,14 +9,13 @@ import requests
 
 def availableShips(passengerCount):
     """
-    Checks a list of  the ships that can hold a given number of passengers.
+    Checks a list of the ships that can hold a given number of passengers.
 
     Args:
         passengerCount (int): The number of passengers to accommodate.
 
     Returns:
-        str: "OK" if 'Death Star' is found,
-        otherwise "Ships not found: ['Death Star']".
+        str: "OK" if 'Death Star' is found, otherwise "Ships not found: ['Death Star']".
     """
     ships = []
     next_page = "https://swapi-api.hbtn.io/api/starships/"
@@ -39,7 +38,9 @@ def availableShips(passengerCount):
     if 'Death Star' in ships:
         return "OK"
     else:
-        return "Ships not found: ['Death Star']"
+        # Collect all ships that can hold the given number of passengers
+        missing_ships = [ship for ship in ships if 'Death Star' not in ship]
+        return f"Ships not found: {missing_ships}"
 
 
 if __name__ == '__main__':
