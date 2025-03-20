@@ -38,9 +38,8 @@ def availableShips(passengerCount):
     if 'Death Star' in ships:
         return "OK"
     else:
-        missing_ships = [ship for ship in ships if 'Death Star' not in ship]
-        return f"Ships not found: {', '.join(missing_ships)}"
+        return f"Ships not found: Death Star"
 
 
 if __name__ == '__main__':
-    result = availableShips(1)
+    print(availableShips(1))
