@@ -27,10 +27,10 @@ def get_user_location(url):
         # Handle rate limiting
         reset_time = response.headers.get('X-Ratelimit-Reset')
         if reset_time:
-            reset_time = datetime.strptime(reset_time, '%Y-%m-%d %H:%M:%S UTC')
-            current_time = datetime.utcnow()
+            reset_time = int(reset_time)
+            current_time = datetime.utcnow().timestamp()
             time_difference = reset_time - current_time
-            minutes_to_reset = divmod(time_difference.total_seconds(), 60)[0]
+            minutes_to_reset = divmod(time_difference, 60)[0]
             return f"Reset in {int(minutes_to_reset)} min"
         return "Rate limit exceeded"
     elif response.status_code == 200:
