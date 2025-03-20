@@ -23,6 +23,7 @@ def get_rocket_name(rocket_id):
         return rocket_data.get('name', 'Unknown')
     return 'Unknown'
 
+
 def get_first_launch():
     """
     Retrieve and display information about the first SpaceX launch.
@@ -52,7 +53,8 @@ def get_first_launch():
         rocket_name = get_rocket_name(rocket_id)
 
         # Fetch launchpad details using the launchpad ID
-        launchpad_url = f"https://api.spacexdata.com/v4/launchpads/{launchpad_id}"
+        launchpad_url = (
+            f"https://api.spacexdata.com/v4/launchpads/{launchpad_id}")
         launchpad_response = requests.get(launchpad_url)
         if launchpad_response.status_code == 200:
             launchpad_data = launchpad_response.json()
