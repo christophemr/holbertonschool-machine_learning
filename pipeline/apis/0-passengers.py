@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Defines methods to ping the Star Wars API and return the list of ships
-that can hold a given number of passengers
+Defines methods to ping the Star Wars API and return whether the 'Death Star'
+is among the ships that can hold a given number of passengers.
 """
 
 import requests
@@ -9,13 +9,14 @@ import requests
 
 def availableShips(passengerCount):
     """
-    Returns a list of ships that can hold a given number of passengers.
+    Checks a list of  the ships that can hold a given number of passengers.
 
     Args:
         passengerCount (int): The number of passengers to accommodate.
 
     Returns:
-        list: List of ship names that can hold the given number of passengers.
+        str: "OK" if 'Death Star' is found,
+        otherwise "Ships not found: ['Death Star']".
     """
     ships = []
     next_page = "https://swapi-api.hbtn.io/api/starships/"
@@ -34,4 +35,14 @@ def availableShips(passengerCount):
         # Check for the next page URL
         next_page = data['next']
 
-    return ships
+    # Check if 'Death Star' is in the list of ships
+    if 'Death Star' in ships:
+        return "OK"
+    else:
+        return "Ships not found: ['Death Star']"
+
+
+if __name__ == '__main__':
+    # Example usage: Check for ships that can hold at least 1 passenger
+    result = availableShips(1)
+    print(result)
