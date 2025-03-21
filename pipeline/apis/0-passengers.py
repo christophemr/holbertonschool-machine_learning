@@ -23,23 +23,17 @@ def availableShips(passengerCount):
 
     while next_page:
         response = requests.get(next_page)
+        if response.status_code != 200:
+            break
         data = response.json()
 
         # Iterate over the results and filter ships by passenger capacity
-        for ship in data['results']:
-            if ship['passengers'].replace(',', '').isdigit():
-                if int(ship['passengers'].replace(',', '')) >= passengerCount:
-                    ships.append(ship['name'])
+        for ship in data['results', []]:
+            passengers = ship.get("passengers", "0").replace(",", "")
+            if passengers.isdigit() and int(passengers) >= passengerCount:
+                ships.append(ship.get("name"))
 
         # Check for the next page URL
-        next_page = data['next']
+        next_page = data.get("next")
 
-    # Check if 'Death Star' is in the list of ships
-    if 'Death Star' in ships:
-        return "OK"
-    else:
-        return f"Ships not found: Death Star"
-
-
-if __name__ == '__main__':
-    print(availableShips(1))
+    return ships
